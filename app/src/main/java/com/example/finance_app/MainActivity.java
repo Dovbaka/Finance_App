@@ -1,8 +1,11 @@
 package com.example.finance_app;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +15,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    final String LOG_TAG = "myLogs";
+
+    Button btnAdd, btnRead, btnClear;
+    EditText etName, etEmail;
+    BD db;
+    Cursor cursor;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +48,21 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(this);
+
+        btnRead = (Button) findViewById(R.id.btnRead);
+        btnRead.setOnClickListener(this);
+
+        btnClear = (Button) findViewById(R.id.btnClear);
+        btnClear.setOnClickListener(this);
+
+        etName = (EditText) findViewById(R.id.etName);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+
+        db = new BD(this);
+        db.open();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -40,6 +71,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -97,5 +130,44 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        String name = etName.getText().toString();
+        String email = etEmail.getText().toString();
+        switch (v.getId()) {
+            case R.id.btnAdd:
+              //00  Log.d("Mylog","dd");
+                db.addRec(name,email);
+
+            case R.id.btnRead: /*
+                Log.d("Mylog","dd");
+                cursor = db.getAllData();
+                if (cursor.moveToFirst()) {
+
+                    // определяем номера столбцов по имени в выборке
+                    int idColIndex = cursor.getColumnIndex("id");
+                    int nameColIndex = cursor.getColumnIndex("name");
+                    int emailColIndex = cursor.getColumnIndex("text");
+
+                    do {
+                        // получаем значения по номерам столбцов и пишем все в лог
+                        Log.d(LOG_TAG,
+                                "ID = " + cursor.getInt(idColIndex) +
+                                        ", name = " + cursor.getString(nameColIndex) +
+                                        ", email = " + cursor.getString(emailColIndex));
+                        // переход на следующую строку
+                        // а если следующей нет (текущая - последняя), то false - выходим из цикла
+                    } while (cursor.moveToNext());
+                } else {
+                    Log.d(LOG_TAG, "0 rows");
+                cursor.close();}*/
+                break;
+        } }
+    protected void onDestroy() {
+        super.onDestroy();
+        // закрываем подключение при выходе
+        db.close();
     }
 }
