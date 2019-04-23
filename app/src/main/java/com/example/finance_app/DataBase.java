@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class BD {
+public class DataBase {
 
     private static final String DB_NAME = "mydb";
     private static final int DB_VERSION = 1;
@@ -30,8 +30,9 @@ public class BD {
 
     private DBHelper mDBHelper;
     private SQLiteDatabase mDB;
+    final String LOG_TAG = "myLogs";
 
-    public BD(Context ctx) {
+    public DataBase(Context ctx) {
         mCtx = ctx;
     }
 
@@ -58,7 +59,7 @@ public class BD {
         cv.put(COLUMN_TXT, txt);
         cv.put(COLUMN_NAME, name);
         mDB.insert(DB_TABLE, null, cv);
-        Log.d("Mylog","dd");
+        Log.d(LOG_TAG,"Added");
     }
 
     // удалить запись из DB_TABLE
