@@ -1,6 +1,8 @@
 package com.example.finance_app;
 
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,14 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class add_page extends AppCompatActivity
+public class Add_page extends AppCompatActivity
         implements  View.OnClickListener{
 
     final String LOG_TAG = "myLogs";
 
     Button btnAdd, btnRead, btnClear;
     EditText etName, etEmail;
-    DataBase data_base;
+    DataBase dbHelper;
     Cursor cursor;
 
     @Override
@@ -36,46 +38,70 @@ public class add_page extends AppCompatActivity
         etName = (EditText) findViewById(R.id.etName);
         etEmail = (EditText) findViewById(R.id.etEmail);
 
-        data_base = new DataBase(this);
-        data_base.open();
+        // создаем объект для создания и управления версиями БД
+        dbHelper = new DataBase(this);
     }
 
     @Override
     public void onClick(View v) {
         Log.d(LOG_TAG,"Press button");
+        // создаем объект для данных
+        ContentValues cv = new ContentValues();
+
+        // получаем данные из полей ввода
         String name = etName.getText().toString();
         String email = etEmail.getText().toString();
+
+        // подключаемся к БД
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+
         switch (v.getId()) {
             case R.id.btnAdd:
-                data_base.addRec(name,email);
+                Log.d(LOG_TAG, "--- Insert in mytable: ---");
+                // подготовим данные для вставки в виде пар: наименование столбца - значение
 
-            case R.id.btnRead: /*
-                Log.d(LOG_TAG,"dd");
-                cursor = db.getAllData();
-                if (cursor.moveToFirst()) {
+                cv.put("name", name);
+                cv.put("email", email);
+                // вставляем запись и получаем ее ID
+                long rowID = db.insert("mytable", null, cv);
+                Log.d(LOG_TAG, "row inserted, ID = " + rowID);
+                break;
+            case R.id.btnRead:
+                Log.d(LOG_TAG, "--- Rows in mytable: ---");
+                // делаем запрос всех данных из таблицы mytable, получаем Cursor
+                Cursor c = db.query("mytable", null, null, null, null, null, null);
+
+                // ставим позицию курсора на первую строку выборки
+                // если в выборке нет строк, вернется false
+                if (c.moveToFirst()) {
 
                     // определяем номера столбцов по имени в выборке
-                    int idColIndex = cursor.getColumnIndex("id");
-                    int nameColIndex = cursor.getColumnIndex("name");
-                    int emailColIndex = cursor.getColumnIndex("text");
+                    int idColIndex = c.getColumnIndex("id");
+                    int nameColIndex = c.getColumnIndex("name");
+                    int emailColIndex = c.getColumnIndex("email");
 
                     do {
                         // получаем значения по номерам столбцов и пишем все в лог
                         Log.d(LOG_TAG,
-                                "ID = " + cursor.getInt(idColIndex) +
-                                        ", name = " + cursor.getString(nameColIndex) +
-                                        ", email = " + cursor.getString(emailColIndex));
+                                "ID = " + c.getInt(idColIndex) +
+                                        ", name = " + c.getString(nameColIndex) +
+                                        ", email = " + c.getString(emailColIndex));
                         // переход на следующую строку
                         // а если следующей нет (текущая - последняя), то false - выходим из цикла
-                    } while (cursor.moveToNext());
-                } else {
+                    } while (c.moveToNext());
+                } else
                     Log.d(LOG_TAG, "0 rows");
-                cursor.close();}*/
+                c.close();
                 break;
-        } }
-    protected void onDestroy() {
-        super.onDestroy();
-        // закрываем подключение при выходе
-        data_base.close();
-    }
+            case R.id.btnClear:
+                Log.d(LOG_TAG, "--- Clear mytable: ---");
+                // удаляем все записи
+                int clearCount = db.delete("mytable", null, null);
+                Log.d(LOG_TAG, "deleted rows count = " + clearCount);
+                break;
+        }
+        // закрываем подключение к БД
+        dbHelper.close();
+        }
 }
