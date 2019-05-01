@@ -10,13 +10,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Add_page extends AppCompatActivity
         implements  View.OnClickListener{
 
     final String LOG_TAG = "myLogs";
 
     Button btnAdd, btnRead, btnClear;
-    EditText etName, etEmail;
+    EditText etCategory, etSum, etComment;
     DataBase dbHelper;
     Cursor cursor;
 
@@ -35,8 +40,9 @@ public class Add_page extends AppCompatActivity
         btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
 
-        etName = (EditText) findViewById(R.id.etName);
-        etEmail = (EditText) findViewById(R.id.etEmail);
+        etCategory = (EditText) findViewById(R.id.etCategory);
+        etSum = (EditText) findViewById(R.id.etSum);
+        etComment = (EditText) findViewById(R.id.etComment);
 
         // создаем объект для создания и управления версиями БД
         dbHelper = new DataBase(this);
@@ -44,13 +50,16 @@ public class Add_page extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        Log.d(LOG_TAG,"Press button");
+    //    Log.d(LOG_TAG,"Press button");
         // создаем объект для данных
         ContentValues cv = new ContentValues();
 
         // получаем данные из полей ввода
-        String name = etName.getText().toString();
-        String email = etEmail.getText().toString();
+        String Category = etCategory.getText().toString();
+        String Sum = etSum.getText().toString();
+        String Comment = etComment.getText().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("'Date:' yyyy:MM:dd 'Time:' HH:mm:ss");
+        String TimeNow = sdf.format(new Date());
 
         // подключаемся к БД
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -61,8 +70,11 @@ public class Add_page extends AppCompatActivity
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
 
-                cv.put("name", name);
-                cv.put("email", email);
+                cv.put("category", Category);
+                cv.put("sum", Sum);
+                cv.put("time", TimeNow);
+                cv.put("comment", Comment);
+
                 // вставляем запись и получаем ее ID
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
@@ -78,15 +90,19 @@ public class Add_page extends AppCompatActivity
 
                     // определяем номера столбцов по имени в выборке
                     int idColIndex = c.getColumnIndex("id");
-                    int nameColIndex = c.getColumnIndex("name");
-                    int emailColIndex = c.getColumnIndex("email");
+                    int categoryColIndex = c.getColumnIndex("category");
+                    int sumColIndex = c.getColumnIndex("sum");
+                    int commentColIndex = c.getColumnIndex("comment");
+                    int timeColIndex = c.getColumnIndex("time");
 
                     do {
                         // получаем значения по номерам столбцов и пишем все в лог
                         Log.d(LOG_TAG,
                                 "ID = " + c.getInt(idColIndex) +
-                                        ", name = " + c.getString(nameColIndex) +
-                                        ", email = " + c.getString(emailColIndex));
+                                        ", Category = " + c.getString(categoryColIndex) +
+                                        ", Sum = " + c.getString(sumColIndex)+
+                                        ", Comment = " + c.getString(commentColIndex)+
+                                        ", " + c.getString(timeColIndex));
                         // переход на следующую строку
                         // а если следующей нет (текущая - последняя), то false - выходим из цикла
                     } while (c.moveToNext());
