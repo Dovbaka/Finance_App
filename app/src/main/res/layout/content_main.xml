@@ -9,13 +9,14 @@
     tools:showIn="@layout/app_bar_main">
 
     <LinearLayout
-        android:id="@+id/linearLayout_Categories1"
+        android:id="@+id/linearLayout_Main"
         android:layout_width="313dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,188 +25,160 @@
         app:layout_constraintVertical_bias="0.17000002">
 
 
-        <Button
-            android:id="@+id/btnCafe"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_weight="0"
-            android:drawableBottom="@drawable/ic_coffee_cup"
-            android:onClick="onClick" />
-
-        <Space
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnFood"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_weight="0"
-            android:drawableBottom="@drawable/ic_coffee_cup"
-            android:onClick="onClick" />
+            <Button
+                android:id="@+id/btnCafe"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_weight="0"
+                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:onClick="onClick"
+                tools:layout_editor_absoluteX="49dp"
+                tools:layout_editor_absoluteY="108dp" />
 
-        <Space
+            <TextView
+                android:id="@+id/textCafe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0$"
+                android:textAlignment="center" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="0" />
+
+            <Button
+                android:id="@+id/btnTransport"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_weight="0"
+                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:onClick="onClick" />
+
+            <TextView
+                android:id="@+id/textTransport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0$"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Space"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnHome"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_weight="0"
-            android:drawableBottom="@drawable/ic_coffee_cup"
-            android:onClick="onClick" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnFood"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_weight="0"
+                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:onClick="onClick"
+                tools:layout_editor_absoluteX="171dp"
+                tools:layout_editor_absoluteY="108dp" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout_Categories2"
-        android:layout_width="313dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_Categories1"
-        app:layout_constraintVertical_bias="0.029999971">
+            <TextView
+                android:id="@+id/textFood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0$"
+                android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/btnTransport"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_weight="0"
-            android:drawableBottom="@drawable/ic_coffee_cup"
-            android:onClick="onClick" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="0" />
 
-        <Space
+            <Button
+                android:id="@+id/btnShopping"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_weight="0"
+                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:onClick="onClick" />
+
+            <TextView
+                android:id="@+id/textShopping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0$"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Space2"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnShopping"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_weight="0"
-            android:drawableBottom="@drawable/ic_coffee_cup"
-            android:onClick="onClick" />
+            <Button
+                android:id="@+id/btnHome"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_weight="0"
+                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:onClick="onClick"
+                tools:layout_editor_absoluteX="292dp"
+                tools:layout_editor_absoluteY="108dp" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <TextView
+                android:id="@+id/textHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0$"
+                android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/btnGift"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_weight="0"
-            android:drawableBottom="@drawable/ic_coffee_cup"
-            android:onClick="onClick" />
-    </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="0" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout_Text"
-        android:layout_width="313dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout_Categories2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_Categories1">
+            <Button
+                android:id="@+id/btnGift"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_weight="0"
+                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:onClick="onClick" />
 
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0$"
-            android:textAlignment="center" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0$"
-            android:textAlignment="center" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0$"
-            android:textAlignment="center" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout_Text2"
-        android:layout_width="313dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_Categories2"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0$"
-            android:textAlignment="center" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0$"
-            android:textAlignment="center" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0$"
-            android:textAlignment="center" />
+            <TextView
+                android:id="@+id/textGift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0$"
+                android:textAlignment="center" />
+        </LinearLayout>
 
     </LinearLayout>
 
