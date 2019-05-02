@@ -23,7 +23,7 @@ public class Add_page extends AppCompatActivity
 
     Button btnAdd, btnRead, btnClear;
     TextView numbers;
-    EditText etCategory, etSum, etComment;
+    EditText etComment;
     DataBase dbHelper;
     Cursor cursor;
     String Sum = "";
@@ -44,8 +44,6 @@ public class Add_page extends AppCompatActivity
         btnClear.setOnClickListener(this);
 
         numbers = findViewById(R.id.number_text);
-        //etCategory = (EditText) findViewById(R.id.etCategory);
-        //etSum = (EditText) findViewById(R.id.etSum);
         etComment = (EditText) findViewById(R.id.comment);
 
         // создаем объект для создания и управления версиями БД
@@ -76,7 +74,7 @@ public class Add_page extends AppCompatActivity
         ContentValues cv = new ContentValues();
 
         // получаем данные из полей ввода
-        String Category = "SomeCat"; //TODO Додати зчитування категорії з ID
+        String Category = getIntent().getStringExtra("Category");
         String Comment = etComment.getText().toString(); //TODO EditText при розгортці звигає все вгору, а має видвинутись поверх кнопок
         SimpleDateFormat sdf = new SimpleDateFormat("'Date:' yyyy:MM:dd 'Time:' HH:mm:ss");
         String TimeNow = sdf.format(new Date());
@@ -89,7 +87,6 @@ public class Add_page extends AppCompatActivity
             case R.id.btnAdd:
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
-
                 cv.put("category", Category);
                 cv.put("sum", Sum);
                 cv.put("time", TimeNow);
@@ -129,6 +126,7 @@ public class Add_page extends AppCompatActivity
                 } else
                     Log.d(LOG_TAG, "0 rows");
                 c.close();
+           //     finish(); //TODO Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
                 break;
             case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку.
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
@@ -136,6 +134,7 @@ public class Add_page extends AppCompatActivity
                 int clearCount = db.delete("mytable", null, null);
                 Log.d(LOG_TAG, "deleted rows count = " + clearCount);
                 break;
+
         }
         // закрываем подключение к БД
         dbHelper.close();

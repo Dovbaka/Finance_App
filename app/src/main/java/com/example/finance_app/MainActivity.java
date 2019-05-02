@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick(View v){
         Intent intent_Add = new Intent(this, Add_page.class);
+        String category_name="Food";
+        intent_Add.putExtra("Category", category_name);
         startActivityForResult(intent_Add, 1);
     }
 

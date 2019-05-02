@@ -30,7 +30,7 @@
     <string name="division">/</string>
     <string name="dot">.</string>
     <string name="modulo">%</string>
-    <string name="yes">\/</string>
+    <string name="yes">✓</string>
     <string name="no">X</string>
     <string name="delete">DEL</string>
     <string name="clear">C</string>
