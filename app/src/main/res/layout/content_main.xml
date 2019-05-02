@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0$"
+                android:text="@string/no_money"
                 android:textAlignment="center" />
 
             <Space
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0$"
+                android:text="@string/no_money"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0$"
+                android:text="@string/no_money"
                 android:textAlignment="center" />
 
             <Space
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0$"
+                android:text="@string/no_money"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -155,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0$"
+                android:text="@string/no_money"
                 android:textAlignment="center" />
 
             <Space
@@ -176,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0$"
+                android:text="@string/no_money"
                 android:textAlignment="center" />
         </LinearLayout>
 

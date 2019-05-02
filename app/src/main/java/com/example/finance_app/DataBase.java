@@ -12,7 +12,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     public DataBase(Context context) {
         // конструктор суперкласса
-        super(context, "mytable", null, 1);
+        super(context, "myDB", null, 1);
     }
 
     String LOG_TAG = "myLog";

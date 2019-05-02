@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -21,9 +22,11 @@ public class Add_page extends AppCompatActivity
     final String LOG_TAG = "myLogs";
 
     Button btnAdd, btnRead, btnClear;
+    TextView numbers;
     EditText etCategory, etSum, etComment;
     DataBase dbHelper;
     Cursor cursor;
+    String Sum = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +43,30 @@ public class Add_page extends AppCompatActivity
         btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
 
-        etCategory = (EditText) findViewById(R.id.etCategory);
-        etSum = (EditText) findViewById(R.id.etSum);
-        etComment = (EditText) findViewById(R.id.etComment);
+        numbers = findViewById(R.id.number_text);
+        //etCategory = (EditText) findViewById(R.id.etCategory);
+        //etSum = (EditText) findViewById(R.id.etSum);
+        etComment = (EditText) findViewById(R.id.comment);
 
         // создаем объект для создания и управления версиями БД
         dbHelper = new DataBase(this);
+    }
+
+    public void onClickNumber(View v) { //TODO Написати функцію для зчитування операцій onClickOperator
+        Button bn = (Button) v;
+        Sum += bn.getText();
+        numbers.setText(Sum);
+        }
+
+    public void onClickRemove(View v) {
+        if (Sum.length() >1 ) {
+            Sum = Sum.substring(0, Sum.length() - 1);
+            numbers.setText(Sum);
+        }
+        else if (Sum.length() <=1 ) {
+            Sum = "";
+            numbers.setText("0");
+        }
     }
 
     @Override
@@ -55,9 +76,8 @@ public class Add_page extends AppCompatActivity
         ContentValues cv = new ContentValues();
 
         // получаем данные из полей ввода
-        String Category = etCategory.getText().toString();
-        String Sum = etSum.getText().toString();
-        String Comment = etComment.getText().toString();
+        String Category = "SomeCat"; //TODO Додати зчитування категорії з ID
+        String Comment = etComment.getText().toString(); //TODO EditText при розгортці звигає все вгору, а має видвинутись поверх кнопок
         SimpleDateFormat sdf = new SimpleDateFormat("'Date:' yyyy:MM:dd 'Time:' HH:mm:ss");
         String TimeNow = sdf.format(new Date());
 
@@ -110,7 +130,7 @@ public class Add_page extends AppCompatActivity
                     Log.d(LOG_TAG, "0 rows");
                 c.close();
                 break;
-            case R.id.btnClear:
+            case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку.
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
                 // удаляем все записи
                 int clearCount = db.delete("mytable", null, null);
