@@ -9,11 +9,106 @@
     tools:showIn="@layout/app_bar_main">
 
     <LinearLayout
+        android:id="@+id/Numbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout_Main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_Balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/text_Balance_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_money"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Plan"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textPlan_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_money"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_Cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cost"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/text_Cost_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_money"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayout_Main"
-        android:layout_width="313dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
@@ -22,7 +117,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.17000002">
+        app:layout_constraintVertical_bias="0.39">
 
 
         <LinearLayout
@@ -59,7 +154,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:drawableBottom="@drawable/ic_iconfinder_car"
                 android:onClick="onClick" />
 
             <TextView
@@ -91,7 +186,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:drawableBottom="@drawable/ic_iconfinder_food"
                 android:onClick="onClick"
                 tools:layout_editor_absoluteX="171dp"
                 tools:layout_editor_absoluteY="108dp" />
@@ -114,7 +209,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:drawableBottom="@drawable/ic_iconfinder_shop"
                 android:onClick="onClick" />
 
             <TextView
@@ -145,7 +240,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:drawableBottom="@drawable/ic_iconfinder_home"
                 android:onClick="onClick"
                 tools:layout_editor_absoluteX="292dp"
                 tools:layout_editor_absoluteY="108dp" />
@@ -168,7 +263,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:drawableBottom="@drawable/ic_iconfinder_gift"
                 android:onClick="onClick" />
 
             <TextView

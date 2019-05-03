@@ -104,7 +104,33 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick(View v){
         Intent intent_Add = new Intent(this, Add_page.class);
-        String category_name="Food";
+        String category_name="None";
+        switch (v.getId()) {
+
+            case R.id.btnCafe:
+                category_name = "Cafes & restaurants";
+                break;
+
+            case R.id.btnFood:
+                category_name = "Food";
+                break;
+
+            case R.id.btnHome:
+                category_name = "Home";
+                break;
+            case R.id.btnTransport:
+                category_name = "Transport";
+                break;
+
+            case R.id.btnShopping:
+                category_name = "Shopping";
+                break;
+
+            case R.id.btnGift:
+                category_name = "Gift";
+                break;
+        }
+
         intent_Add.putExtra("Category", category_name);
         startActivityForResult(intent_Add, 1);
     }

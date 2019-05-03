@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,19 +21,24 @@ public class Add_page extends AppCompatActivity
         implements  View.OnClickListener{
 
     final String LOG_TAG = "myLogs";
-
+    //TODO Записувати в БД всі значення Sum у вигляді double (25.0) або додати округлення 0 в double елем
+    View database_lay,equal_lay;
     Button btnAdd, btnRead, btnClear;
     TextView numbers;
     EditText etComment;
     DataBase dbHelper;
     Cursor cursor;
-    String Sum = "";
+    String Sum = "", sign = "";
+    double tempDouble, tempDouble2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOG_TAG,"Created");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_page);
+
+        database_lay = (View) findViewById(R.id.For_database);
+        equal_lay = (View) findViewById(R.id.For_equal);
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
@@ -50,11 +56,65 @@ public class Add_page extends AppCompatActivity
         dbHelper = new DataBase(this);
     }
 
-    public void onClickNumber(View v) { //TODO Написати функцію для зчитування операцій onClickOperator
+    public void onClickNumber(View v) {
         Button bn = (Button) v;
         Sum += bn.getText();
         numbers.setText(Sum);
         }
+
+    public void onClickOperator(View v) {
+        Button bn = (Button) v;
+        Sum = "";
+        tempDouble = Double.parseDouble(numbers.getText().toString());
+        numbers.setText(bn.getText().toString());
+        sign = bn.getText().toString();
+        database_lay.setVisibility( View.GONE );
+        equal_lay.setVisibility( View.VISIBLE );
+    }
+
+    public void onClickEqual(View v){ //TODO Додати валідацію
+        tempDouble2 = Double.parseDouble(numbers.getText().toString());
+
+        switch (sign) {
+
+            case "+":
+                numbers.setText(Double.toString(tempDouble + tempDouble2));
+                break;
+
+            case "-":
+                numbers.setText(Double.toString(tempDouble - tempDouble2));
+                break;
+
+            case "*":
+                numbers.setText(Double.toString(tempDouble * tempDouble2));
+                break;
+            case "/":
+                if (tempDouble2 == 0) {
+                    numbers.setText("Cannot Divide By Zero!");
+                } else {
+                    numbers.setText(Double.toString(tempDouble / tempDouble2));
+                }
+                break;
+        }
+
+        database_lay.setVisibility( View.VISIBLE );
+        equal_lay.setVisibility( View.GONE );
+
+        Sum = numbers.getText().toString();
+
+    }
+
+    public void onClickDot(View v) {
+        if(!Sum.contains(".")){
+            if (Sum.length() >= 1) {
+                Sum += ".";
+                numbers.setText(Sum);
+            } else if (Sum.equals("")) {
+                Sum = "0.";
+                numbers.setText(Sum);
+            }
+        }
+    }
 
     public void onClickRemove(View v) {
         if (Sum.length() >1 ) {
@@ -126,7 +186,7 @@ public class Add_page extends AppCompatActivity
                 } else
                     Log.d(LOG_TAG, "0 rows");
                 c.close();
-           //     finish(); //TODO Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
+           //     finish(); // Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
                 break;
             case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку.
                 Log.d(LOG_TAG, "--- Clear mytable: ---");

@@ -32,7 +32,7 @@
         <EditText
             android:id="@+id/comment"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/Buttons"
             android:background="@color/mr_grey"
             android:gravity="bottom|right|left"
@@ -44,6 +44,7 @@
             android:id="@+id/Buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:layout_above="@+id/btn_Time"
             android:orientation="horizontal">
 
@@ -56,22 +57,26 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/layout_height"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/btn_minus"
+                        style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/buttonMargin"
                         android:layout_weight="1"
                         android:background="@color/function_color"
+                        android:onClick="onClickOperator"
                         android:text="@string/minus"
                         android:textColor="@color/white"
                         android:textSize="@dimen/textSize" />
 
                     <Button
                         android:id="@+id/btn_seven"
+                        style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/buttonMargin"
@@ -84,6 +89,7 @@
 
                     <Button
                         android:id="@+id/btn_eight"
+                        style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/buttonMargin"
@@ -96,6 +102,7 @@
 
                     <Button
                         android:id="@+id/btn_nine"
+                        style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/buttonMargin"
@@ -111,7 +118,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/layout_height"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <Button
@@ -121,6 +129,7 @@
                         android:layout_margin="@dimen/buttonMargin"
                         android:layout_weight="1"
                         android:background="@color/function_color"
+                        android:onClick="onClickOperator"
                         android:text="@string/plus"
                         android:textColor="@color/white"
                         android:textSize="@dimen/textSize" />
@@ -166,7 +175,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/layout_height"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <Button
@@ -176,6 +186,7 @@
                         android:layout_margin="@dimen/buttonMargin"
                         android:layout_weight="1"
                         android:background="@color/function_color"
+                        android:onClick="onClickOperator"
                         android:text="@string/multiplication"
                         android:textColor="@color/white"
                         android:textSize="@dimen/textSize" />
@@ -220,7 +231,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/layout_height"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <Button
@@ -230,6 +242,7 @@
                         android:layout_margin="@dimen/buttonMargin"
                         android:layout_weight="1"
                         android:background="@color/function_color"
+                        android:onClick="onClick"
                         android:text="@string/division"
                         android:textColor="@color/white"
                         android:textSize="@dimen/textSize" />
@@ -241,6 +254,7 @@
                         android:layout_margin="@dimen/buttonMargin"
                         android:layout_weight="1"
                         android:background="@color/number_color"
+                        android:onClick="onClickDot"
                         android:text="@string/dot"
                         android:textColor="@color/white"
                         android:textSize="@dimen/textSize" />
@@ -274,6 +288,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/For_database"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/keypad"
@@ -282,6 +297,7 @@
 
                 <Button
                     android:id="@+id/btnRead"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/buttonMargin"
@@ -301,6 +317,43 @@
                     android:background="@color/green_color"
                     android:onClick="onClick"
                     android:text="@string/yes"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/For_equal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/keypad"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnRead2"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/buttonMargin"
+                    android:layout_weight="1"
+                    android:background="@color/red_color"
+                    android:onClick="onClick"
+                    android:text="@string/no"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize" />
+
+                <Button
+                    android:id="@+id/btnEqual"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/buttonMargin"
+                    android:layout_weight="1"
+                    android:background="@color/green_color"
+                    android:onClick="onClickEqual"
+                    android:text="="
                     android:textColor="@color/white"
                     android:textSize="@dimen/textSize" />
 
