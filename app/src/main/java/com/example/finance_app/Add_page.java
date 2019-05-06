@@ -18,10 +18,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Add_page extends AppCompatActivity
-        implements  View.OnClickListener{
+        implements  View.OnClickListener{//TODO SUM не має бути відємним
 
     final String LOG_TAG = "myLogs";
-    //TODO Записувати в БД всі значення Sum у вигляді double (25.0) або додати округлення 0 в double елем
     View database_lay,equal_lay;
     Button btnAdd, btnRead, btnClear;
     TextView numbers;
@@ -30,6 +29,13 @@ public class Add_page extends AppCompatActivity
     Cursor cursor;
     String Sum = "", sign = "";
     double tempDouble, tempDouble2;
+
+    public boolean isInt(double a){
+        if (a % 1 == 0)
+            return true;
+        else
+            return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,27 +78,43 @@ public class Add_page extends AppCompatActivity
         equal_lay.setVisibility( View.VISIBLE );
     }
 
-    public void onClickEqual(View v){ //TODO Додати валідацію
+    public void onClickEqual(View v){ //TODO Додати валідацію. Обмежити цифри після коми до 2
         tempDouble2 = Double.parseDouble(numbers.getText().toString());
+        double tempsum = 0;
 
         switch (sign) {
 
             case "+":
-                numbers.setText(Double.toString(tempDouble + tempDouble2));
+                tempsum = tempDouble + tempDouble2;
+                if(isInt(tempsum))
+                numbers.setText(Integer.toString((int)tempsum));
+                else numbers.setText(Double.toString(tempsum));
                 break;
 
             case "-":
-                numbers.setText(Double.toString(tempDouble - tempDouble2));
+                tempsum = tempDouble - tempDouble2;
+                if(isInt(tempsum))
+                    numbers.setText(Integer.toString((int)tempsum));
+                else numbers.setText(Double.toString(tempsum));
                 break;
 
             case "*":
-                numbers.setText(Double.toString(tempDouble * tempDouble2));
+                tempsum = tempDouble * tempDouble2;
+                if(isInt(tempsum))
+                    numbers.setText(Integer.toString((int)tempsum));
+                else numbers.setText(Double.toString(tempsum));
                 break;
+
             case "/":
+                tempsum = tempDouble / tempDouble2;
                 if (tempDouble2 == 0) {
-                    numbers.setText("Cannot Divide By Zero!");
+                    if(isInt(tempsum))
+                        numbers.setText(Integer.toString((int)tempsum));
+                    else numbers.setText(Double.toString(tempsum));
                 } else {
-                    numbers.setText(Double.toString(tempDouble / tempDouble2));
+                    if(isInt(tempsum))
+                        numbers.setText(Integer.toString((int)tempsum));
+                    else numbers.setText(Double.toString(tempsum));
                 }
                 break;
         }
@@ -101,7 +123,6 @@ public class Add_page extends AppCompatActivity
         equal_lay.setVisibility( View.GONE );
 
         Sum = numbers.getText().toString();
-
     }
 
     public void onClickDot(View v) {
@@ -135,7 +156,7 @@ public class Add_page extends AppCompatActivity
 
         // получаем данные из полей ввода
         String Category = getIntent().getStringExtra("Category");
-        String Comment = etComment.getText().toString(); //TODO EditText при розгортці звигає все вгору, а має видвинутись поверх кнопок
+        String Comment = etComment.getText().toString();
         SimpleDateFormat sdf = new SimpleDateFormat("'Date:' yyyy:MM:dd 'Time:' HH:mm:ss");
         String TimeNow = sdf.format(new Date());
 
@@ -188,13 +209,13 @@ public class Add_page extends AppCompatActivity
                 c.close();
            //     finish(); // Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
                 break;
-            case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку.
+
+            case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку Clear (під кінець роботи з БД)
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
                 // удаляем все записи
                 int clearCount = db.delete("mytable", null, null);
                 Log.d(LOG_TAG, "deleted rows count = " + clearCount);
                 break;
-
         }
         // закрываем подключение к БД
         dbHelper.close();
