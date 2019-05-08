@@ -1,9 +1,9 @@
 package com.example.finance_app;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +13,63 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    DataBase dbHelper;
+    TextView Cafe,Food,Home,Transport,Shopping,Gift;
+
+    public void DataBaseTakeInformation(){
+        dbHelper = new DataBase(this);
+        Cursor c = null;
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] columns = null;
+        String groupBy = null;
+
+        columns = new String[] { "category", "sum(sum) as sum" };
+        groupBy = "category";
+        c = db.query("mytable", columns, null, null, groupBy, null, null);
+        Cafe.setText("0$");   //TODO Костиль в тому що при видаленні БД, значення обнуляються лише при перезаході
+        Food.setText("0$");
+        Home.setText("0$");
+        Transport.setText("0$");
+        Shopping.setText("0$");
+        Gift.setText("0$");
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    for (String cn : c.getColumnNames()) {
+                        switch (c.getString(c.getColumnIndex(cn)))
+                        {
+                            case "Cafes & restaurants":
+                                Cafe.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                            case "Food":
+                                Food.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                            case "Home":
+                                Home.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                            case "Transport":
+                                Transport.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                            case "Shopping":
+                                Shopping.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                            case "Gift":
+                                Gift.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                        }}}
+                while (c.moveToNext()) ;
+            }
+            c.close();
+        }
+        dbHelper.close();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +78,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Cafe = findViewById(R.id.textCafe);
+        Food = findViewById(R.id.textFood);
+        Home = findViewById(R.id.textHome);
+        Transport = findViewById(R.id.textTransport);
+        Shopping = findViewById(R.id.textShopping);
+        Gift = findViewById(R.id.textGift);
 
+        DataBaseTakeInformation();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -34,8 +95,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        DataBaseTakeInformation();
     }
 
     @Override
