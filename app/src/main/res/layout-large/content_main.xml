@@ -16,7 +16,14 @@
         android:background="@color/colorPrimary"
         android:baselineAligned="false"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout_Main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,7 +39,7 @@
                 android:text="Total"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/text_Balance_num"
@@ -40,14 +47,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/no_money"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -56,10 +62,10 @@
                 android:id="@+id/textPlan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Smal"
+                android:text="Large"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textPlan_num"
@@ -67,13 +73,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/no_money"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -85,7 +90,7 @@
                 android:text="Cost"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/text_Cost_num"
@@ -93,8 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/no_money"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -107,8 +111,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp">
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
 
         <LinearLayout
@@ -121,8 +125,8 @@
             <Button
                 android:id="@+id/btnIncome"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_coffee_cup"
                 android:onClick="onClick" />
@@ -181,8 +185,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp">
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
 
         <LinearLayout
@@ -195,8 +199,8 @@
             <Button
                 android:id="@+id/btnCash"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_coffee_cup"
                 android:onClick="onClick" />
@@ -229,8 +233,8 @@
             <Button
                 android:id="@+id/btnCard"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_iconfinder_food"
                 android:onClick="onClick"
@@ -276,8 +280,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp">
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
 
         <LinearLayout
@@ -290,8 +294,8 @@
             <Button
                 android:id="@+id/btnCafe"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_coffee_cup"
                 android:onClick="onClick" />
@@ -312,8 +316,8 @@
             <Button
                 android:id="@+id/btnTransport"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_iconfinder_car"
                 android:onClick="onClick" />
@@ -347,8 +351,8 @@
             <Button
                 android:id="@+id/btnFood"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_iconfinder_food"
                 android:onClick="onClick"
@@ -371,8 +375,8 @@
             <Button
                 android:id="@+id/btnShopping"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_iconfinder_shop"
                 android:onClick="onClick" />
@@ -405,8 +409,8 @@
             <Button
                 android:id="@+id/btnHome"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_iconfinder_home"
                 android:onClick="onClick"
@@ -429,8 +433,8 @@
             <Button
                 android:id="@+id/btnGift"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:drawableBottom="@drawable/ic_iconfinder_gift"
                 android:onClick="onClick" />
@@ -449,6 +453,6 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="10" />
+        android:layout_weight="5" />
 
 </LinearLayout>
