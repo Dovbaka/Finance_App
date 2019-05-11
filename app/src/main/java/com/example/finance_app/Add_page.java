@@ -8,9 +8,13 @@ import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -30,6 +34,9 @@ public class Add_page extends AppCompatActivity
     String Sum = "", sign = "";
     double tempDouble, tempDouble2;
 
+    String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift"};
+    String[] data2 = {"Cash", "Card"};
+
     public boolean isInt(double a){
         if (a % 1 == 0)
             return true;
@@ -42,6 +49,22 @@ public class Add_page extends AppCompatActivity
         Log.d(LOG_TAG,"Created");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_page);
+
+        // адаптер
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data2);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(adapter);
+
+        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        spinner2.setAdapter(adapter2);
+        // выделяем элемент
+        spinner.setSelection(0);
+        spinner2.setSelection(0);
 
         database_lay = (View) findViewById(R.id.For_database);
         equal_lay = (View) findViewById(R.id.For_equal);
