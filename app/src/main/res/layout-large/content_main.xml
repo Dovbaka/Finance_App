@@ -122,13 +122,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnIncome"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:src="@drawable/ic_coffee_cup"
                 android:onClick="onClick" />
 
             <TextView
@@ -196,13 +196,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnCash"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:src="@drawable/ic_coffee_cup"
                 android:onClick="onClick" />
 
             <TextView
@@ -230,13 +230,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnCard"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_iconfinder_food"
+                android:src="@drawable/ic_iconfinder_food"
                 android:onClick="onClick"
                 tools:layout_editor_absoluteX="171dp"
                 tools:layout_editor_absoluteY="108dp" />
@@ -291,13 +291,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnCafe"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_coffee_cup"
+                android:src="@drawable/ic_coffee_cup"
                 android:onClick="onClick" />
 
             <TextView
@@ -313,13 +313,13 @@
                 android:layout_height="20dp"
                 android:layout_weight="0" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnTransport"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_iconfinder_car"
+                android:src="@drawable/ic_iconfinder_car"
                 android:onClick="onClick" />
 
             <TextView
@@ -348,13 +348,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnFood"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_iconfinder_food"
+                android:src="@drawable/ic_iconfinder_food"
                 android:onClick="onClick"
                 tools:layout_editor_absoluteX="171dp"
                 tools:layout_editor_absoluteY="108dp" />
@@ -372,13 +372,13 @@
                 android:layout_height="20dp"
                 android:layout_weight="0" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnShopping"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_iconfinder_shop"
+                android:src="@drawable/ic_iconfinder_shop"
                 android:onClick="onClick" />
 
             <TextView
@@ -406,13 +406,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnHome"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_iconfinder_home"
+                android:src="@drawable/ic_iconfinder_home"
                 android:onClick="onClick"
                 tools:layout_editor_absoluteX="292dp"
                 tools:layout_editor_absoluteY="108dp" />
@@ -430,13 +430,13 @@
                 android:layout_height="20dp"
                 android:layout_weight="0" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnGift"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:drawableBottom="@drawable/ic_iconfinder_gift"
+                android:src="@drawable/ic_iconfinder_gift"
                 android:onClick="onClick" />
 
             <TextView

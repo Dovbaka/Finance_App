@@ -56,7 +56,7 @@
                 android:id="@+id/textPlan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Smal"
+                android:text="Vetalin"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
@@ -107,7 +107,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:paddingLeft="30dp"
         android:paddingRight="30dp">
 
@@ -122,8 +122,8 @@
             <ImageButton
                 android:id="@+id/btnIncome"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:onClick="onClick"
                 android:src="@drawable/ic_iconfinder_money" />
@@ -196,8 +196,8 @@
             <ImageButton
                 android:id="@+id/btnCash"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:onClick="onClick"
                 android:src="@drawable/ic_iconfinder_wallet" />
@@ -230,8 +230,8 @@
             <ImageButton
                 android:id="@+id/btnCard"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
                 android:onClick="onClick"
                 android:src="@drawable/ic_iconfinder_card"
@@ -291,11 +291,11 @@
             <ImageButton
                 android:id="@+id/btnCafe"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
-                android:onClick="onClick"
-                android:src="@drawable/ic_coffee_cup" />
+                android:src="@drawable/ic_coffee_cup"
+                android:onClick="onClick" />
 
             <TextView
                 android:id="@+id/textCafe"
@@ -313,11 +313,11 @@
             <ImageButton
                 android:id="@+id/btnTransport"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
-                android:onClick="onClick"
-                android:src="@drawable/ic_iconfinder_car" />
+                android:src="@drawable/ic_iconfinder_car"
+                android:onClick="onClick" />
 
             <TextView
                 android:id="@+id/textTransport"
@@ -348,11 +348,11 @@
             <ImageButton
                 android:id="@+id/btnFood"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
-                android:onClick="onClick"
                 android:src="@drawable/ic_iconfinder_food"
+                android:onClick="onClick"
                 tools:layout_editor_absoluteX="171dp"
                 tools:layout_editor_absoluteY="108dp" />
 
@@ -372,11 +372,11 @@
             <ImageButton
                 android:id="@+id/btnShopping"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
-                android:onClick="onClick"
-                android:src="@drawable/ic_iconfinder_shop" />
+                android:src="@drawable/ic_iconfinder_shop"
+                android:onClick="onClick" />
 
             <TextView
                 android:id="@+id/textShopping"
@@ -406,11 +406,11 @@
             <ImageButton
                 android:id="@+id/btnHome"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
-                android:onClick="onClick"
                 android:src="@drawable/ic_iconfinder_home"
+                android:onClick="onClick"
                 tools:layout_editor_absoluteX="292dp"
                 tools:layout_editor_absoluteY="108dp" />
 
@@ -430,11 +430,11 @@
             <ImageButton
                 android:id="@+id/btnGift"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_weight="0"
-                android:onClick="onClick"
-                android:src="@drawable/ic_iconfinder_gift" />
+                android:src="@drawable/ic_iconfinder_gift"
+                android:onClick="onClick" />
 
             <TextView
                 android:id="@+id/textGift"

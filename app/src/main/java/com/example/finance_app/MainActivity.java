@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DataBase dbHelper;
-    TextView Cafe,Food,Home,Transport,Shopping,Gift;
+    TextView Cafe,Food,Home,Transport,Shopping,Gift, Total; //TODO Вивести в TetxView "Total" поточний баланс
 
     public void DataBaseTakeInformation(){
         dbHelper = new DataBase(this);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
         columns = new String[] { "category", "sum(sum) as sum" };
         groupBy = "category";
         c = db.query("mytable", columns, null, null, groupBy, null, null);
-        Cafe.setText("0$");   //TODO Костиль в тому що при видаленні БД, значення обнуляються лише при перезаході
+        Cafe.setText("0$");
         Food.setText("0$");
         Home.setText("0$");
         Transport.setText("0$");
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         Transport = findViewById(R.id.textTransport);
         Shopping = findViewById(R.id.textShopping);
         Gift = findViewById(R.id.textGift);
+        Total = findViewById(R.id.text_Balance);
 
         DataBaseTakeInformation();
 
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v){
         Intent intent_Add = new Intent(this, Add_page.class);
         String category_name="None";
-        switch (v.getId()) {
+        switch (v.getId()) { //TODO Додати Balance в БД, при натисненні "btnCash" і "btnCard" записати в Balance суму.
 
             case R.id.btnCafe:
                 category_name = "Cafes & restaurants";
