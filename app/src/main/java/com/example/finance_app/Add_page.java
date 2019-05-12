@@ -20,16 +20,18 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Add_page extends AppCompatActivity
         implements  View.OnClickListener{//TODO SUM не має бути відємним
 
     final String LOG_TAG = "myLogs";
     View database_lay,equal_lay;
-    Button btnAdd, btnRead, btnClear;
+    Button btnAdd, btnRead, btnClear, btnTime;
     TextView numbers;
     EditText etComment;
     DataBase dbHelper;
+    Spinner spinner, spinner2;
     Cursor cursor;
     String Sum = "", sign = "";
     double tempDouble, tempDouble2;
@@ -50,6 +52,8 @@ public class Add_page extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_page);
 
+        String cat_name = getIntent().getStringExtra("Category");
+
         // адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -57,13 +61,16 @@ public class Add_page extends AppCompatActivity
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data2);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(adapter);
 
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
         spinner2.setAdapter(adapter2);
         // выделяем элемент
-        spinner.setSelection(0);
+        for (int i = 0; i < data.length; i++) {
+            if(data[i].equals(cat_name)){ spinner.setSelection(i);break;}
+            else {spinner.setSelection(0);}
+        }
         spinner2.setSelection(0);
 
         database_lay = (View) findViewById(R.id.For_database);
@@ -78,11 +85,16 @@ public class Add_page extends AppCompatActivity
         btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
 
+        btnTime = (Button) findViewById(R.id.btn_Time);
+
         numbers = findViewById(R.id.number_text);
         etComment = (EditText) findViewById(R.id.comment);
 
         // создаем объект для создания и управления версиями БД
         dbHelper = new DataBase(this);
+
+        String TimeNow = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
+        btnTime.setText(TimeNow);
     }
 
     public void onClickNumber(View v) {
@@ -178,7 +190,7 @@ public class Add_page extends AppCompatActivity
         ContentValues cv = new ContentValues();
 
         // получаем данные из полей ввода
-        String Category = getIntent().getStringExtra("Category");
+        String Category = spinner.getSelectedItem().toString(); // зчитування з спінера
         String Comment = etComment.getText().toString();
         SimpleDateFormat sdf = new SimpleDateFormat("'Date:' yyyy:MM:dd 'Time:' HH:mm:ss");
         String TimeNow = sdf.format(new Date());
