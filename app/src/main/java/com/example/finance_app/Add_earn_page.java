@@ -17,8 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Add_page extends AppCompatActivity
-        implements  View.OnClickListener{//TODO SUM не має бути відємним
+public class Add_earn_page extends AppCompatActivity
+        implements  View.OnClickListener{
 
     final String LOG_TAG = "myLogs";
     View database_lay,equal_lay;
@@ -31,8 +31,8 @@ public class Add_page extends AppCompatActivity
     String Sum = "", sign = "";
     double tempDouble, tempDouble2;
 
-    String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift","Cash", "Card"};
-    String[] data2 = {"Cash", "Card"};
+    String[] data = {"Cash", "Card"};
+    String[] data2 = {"Salary"};
 
     public boolean isInt(double a){
         if (a % 1 == 0)
@@ -48,7 +48,6 @@ public class Add_page extends AppCompatActivity
         setContentView(R.layout.activity_add_page);
 
         String cat_name = getIntent().getStringExtra("Category");
-
         // адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -96,7 +95,7 @@ public class Add_page extends AppCompatActivity
         Button bn = (Button) v;
         Sum += bn.getText();
         numbers.setText(Sum);
-        }
+    }
 
     public void onClickOperator(View v) {
         Button bn = (Button) v;
@@ -117,7 +116,7 @@ public class Add_page extends AppCompatActivity
             case "+":
                 tempsum = tempDouble + tempDouble2;
                 if(isInt(tempsum))
-                numbers.setText(Integer.toString((int)tempsum));
+                    numbers.setText(Integer.toString((int)tempsum));
                 else numbers.setText(Double.toString(tempsum));
                 break;
 
@@ -180,13 +179,12 @@ public class Add_page extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-    //    Log.d(LOG_TAG,"Press button");
+        //    Log.d(LOG_TAG,"Press button");
         // создаем объект для данных
         ContentValues cv = new ContentValues();
 
         // получаем данные из полей ввода
-        String Category = spinner.getSelectedItem().toString();// зчитування з спінера
-        String destination = spinner2.getSelectedItem().toString();
+        String Category = spinner.getSelectedItem().toString(); // зчитування з спінера
         String Comment = etComment.getText().toString();
         SimpleDateFormat sdf = new SimpleDateFormat("'Date:' yyyy:MM:dd 'Time:' HH:mm:ss");
         String TimeNow = sdf.format(new Date());
@@ -200,7 +198,7 @@ public class Add_page extends AppCompatActivity
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
                 cv.put("category", Category);
-                cv.put("type","From " + destination);
+                cv.put("type","From Card");
                 cv.put("sum", Sum);
                 cv.put("time", TimeNow);
                 cv.put("comment", Comment);
@@ -239,7 +237,7 @@ public class Add_page extends AppCompatActivity
                 } else
                     Log.d(LOG_TAG, "0 rows");
                 c.close();
-           //     finish(); // Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
+                //     finish(); // Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
                 break;
 
             case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку Clear (під кінець роботи з БД)
@@ -251,5 +249,5 @@ public class Add_page extends AppCompatActivity
         }
         // закрываем подключение к БД
         dbHelper.close();
-        }
+    }
 }

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         }
         dbHelper.close();
             int Res=cash-costs;
-           Cash.setText(""+Res+"$");
+            Cash.setText(""+Res+"$");
             int total=Res+card;
             Card.setText(""+card+'$');
             Total.setText(""+total+"$");
@@ -188,42 +188,57 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick(View v){
         Intent intent_Add = new Intent(this, Add_page.class);
+        Intent intent_Add_earn = new Intent(this, Add_earn_page.class);
         String category_name="None";
         switch (v.getId()) { //TODO Додати Balance в БД, при натисненні "btnCash" і "btnCard" записати в Balance суму.
             case R.id.btnCafe:
                 category_name = "Cafes & restaurants";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnFood:
                 category_name = "Food";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnHome:
                 category_name = "Home";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
                 break;
             case R.id.btnTransport:
                 category_name = "Transport";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnShopping:
                 category_name = "Shopping";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnGift:
                 category_name = "Gift";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnCash:
                 category_name = "Cash";
+                intent_Add_earn.putExtra("Category", category_name);
+                startActivityForResult(intent_Add_earn, 1);
                 break;
 
             case R.id.btnCard:
                 category_name = "Card";
+                intent_Add_earn.putExtra("Category", category_name);
+                startActivityForResult(intent_Add_earn, 1);
                 break;
         }
 
-        intent_Add.putExtra("Category", category_name);
-        startActivityForResult(intent_Add, 1);
     }
 
 
