@@ -202,8 +202,8 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="0"
-                android:src="@drawable/ic_coffee_cup"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/ic_coffee_cup" />
 
             <TextView
                 android:id="@+id/textCash"

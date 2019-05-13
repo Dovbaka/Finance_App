@@ -375,7 +375,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btnRead"
+                        android:id="@+id/btnClose"
                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

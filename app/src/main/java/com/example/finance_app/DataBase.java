@@ -22,8 +22,9 @@ public class DataBase extends SQLiteOpenHelper {
         Log.d(LOG_TAG, "--- onCreate database ---");
         // создаем таблицу с полями
         db.execSQL("create table mytable ("
-                + "id integer primary key autoincrement,"
+                + "_id integer primary key autoincrement,"
                 + "category text,"
+                + "type text,"
                 + "sum text,"
                 + "time text,"
                 + "comment text"

@@ -5,20 +5,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -36,8 +31,8 @@ public class Add_page extends AppCompatActivity
     String Sum = "", sign = "";
     double tempDouble, tempDouble2;
 
-    String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift"};
-    String[] data2 = {"Cash", "Card"};
+    String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift","Cash", "Card"};
+   String[] data2 = {"Cash", "Card"};
 
     public boolean isInt(double a){
         if (a % 1 == 0)
@@ -79,7 +74,7 @@ public class Add_page extends AppCompatActivity
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
 
-        btnRead = (Button) findViewById(R.id.btnRead);
+        btnRead = (Button) findViewById(R.id.btnClose);
         btnRead.setOnClickListener(this);
 
         btnClear = (Button) findViewById(R.id.btnClear);
@@ -204,6 +199,7 @@ public class Add_page extends AppCompatActivity
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
                 cv.put("category", Category);
+                cv.put("type","From Card");
                 cv.put("sum", Sum);
                 cv.put("time", TimeNow);
                 cv.put("comment", Comment);
@@ -212,18 +208,17 @@ public class Add_page extends AppCompatActivity
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
                 break;
-            case R.id.btnRead:
+            case R.id.btnClose:
                 Log.d(LOG_TAG, "--- Rows in mytable: ---");
                 // делаем запрос всех данных из таблицы mytable, получаем Cursor
                 Cursor c = db.query("mytable", null, null, null, null, null, null);
-
                 // ставим позицию курсора на первую строку выборки
                 // если в выборке нет строк, вернется false
                 if (c.moveToFirst()) {
-
                     // определяем номера столбцов по имени в выборке
-                    int idColIndex = c.getColumnIndex("id");
+                    int idColIndex = c.getColumnIndex("_id");
                     int categoryColIndex = c.getColumnIndex("category");
+                    int typeColIndex = c.getColumnIndex("type");
                     int sumColIndex = c.getColumnIndex("sum");
                     int commentColIndex = c.getColumnIndex("comment");
                     int timeColIndex = c.getColumnIndex("time");
@@ -233,6 +228,7 @@ public class Add_page extends AppCompatActivity
                         Log.d(LOG_TAG,
                                 "ID = " + c.getInt(idColIndex) +
                                         ", Category = " + c.getString(categoryColIndex) +
+                                        ", Type = " + c.getString(typeColIndex)+
                                         ", Sum = " + c.getString(sumColIndex)+
                                         ", Comment = " + c.getString(commentColIndex)+
                                         ", " + c.getString(timeColIndex));

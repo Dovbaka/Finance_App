@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,12 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import static java.lang.Integer.parseInt;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DataBase dbHelper;
-    TextView Cafe,Food,Home,Transport,Shopping,Gift, Total; //TODO Вивести в TetxView "Total" поточний баланс
-
+    TextView Cafe,Food,Home,Transport,Shopping,Gift,Cash,Card, Total; //TODO Вивести в TetxView "Total" поточний баланс
     public void DataBaseTakeInformation(){
         dbHelper = new DataBase(this);
         Cursor c = null;
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columns = null;
         String groupBy = null;
+        int costs=0;
+        int cash=0;
+        int card=0;
 
         columns = new String[] { "category", "sum(sum) as sum" };
         groupBy = "category";
@@ -46,29 +51,46 @@ public class MainActivity extends AppCompatActivity
                         {
                             case "Cafes & restaurants":
                                 Cafe.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "Food":
                                 Food.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "Home":
                                 Home.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "Transport":
                                 Transport.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "Shopping":
+                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 Shopping.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
                                 break;
                             case "Gift":
                                 Gift.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
+                            case "Card":
+                                card+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                break;
+                            case "Cash":
+                                cash+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                break;
+
                         }}}
                 while (c.moveToNext()) ;
-            }
             c.close();
         }
         dbHelper.close();
-    }
+            int Res=cash-costs;
+           Cash.setText(""+Res+"$");
+            int total=Res+card;
+            Card.setText(""+card+'$');
+            Total.setText(""+total+"$");
+    }}
 
 
     @Override
@@ -84,7 +106,9 @@ public class MainActivity extends AppCompatActivity
         Transport = findViewById(R.id.textTransport);
         Shopping = findViewById(R.id.textShopping);
         Gift = findViewById(R.id.textGift);
-        Total = findViewById(R.id.text_Balance);
+        Card = findViewById(R.id.textCard);
+        Cash = findViewById(R.id.textCash);
+        Total = findViewById(R.id.text_Balance_num);
 
         DataBaseTakeInformation();
 
@@ -143,7 +167,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent_Operation = new Intent(this, Operation_page.class);
+            startActivityForResult(intent_Operation, 1);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -165,7 +190,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent_Add = new Intent(this, Add_page.class);
         String category_name="None";
         switch (v.getId()) { //TODO Додати Balance в БД, при натисненні "btnCash" і "btnCard" записати в Balance суму.
-
             case R.id.btnCafe:
                 category_name = "Cafes & restaurants";
                 break;
@@ -187,6 +211,14 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btnGift:
                 category_name = "Gift";
+                break;
+
+            case R.id.btnCash:
+                category_name = "Cash";
+                break;
+
+            case R.id.btnCard:
+                category_name = "Card";
                 break;
         }
 
