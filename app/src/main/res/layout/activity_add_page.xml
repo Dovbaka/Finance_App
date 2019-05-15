@@ -425,31 +425,47 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <Button
-                    android:id="@+id/btnRead2"
-                    style="@style/Widget.AppCompat.Button.Borderless"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/buttonMargin"
                     android:layout_weight="1"
                     android:background="@color/red_color"
-                    android:onClick="onClick"
-                    android:text="@string/no"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/textSize" />
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnEqual"
-                    style="@style/Widget.AppCompat.Button.Borderless"
+                    <Button
+                        android:id="@+id/btnRead2"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/buttonMargin"
+                        android:layout_weight="1"
+                        android:background="@color/red_color"
+                        android:onClick="onClick"
+                        android:text="@string/no"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSize" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/buttonMargin"
                     android:layout_weight="1"
                     android:background="@color/green_color"
-                    android:onClick="onClickEqual"
-                    android:text="="
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/textSize" />
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnEqual"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/buttonMargin"
+                        android:layout_weight="1"
+                        android:background="@color/green_color"
+                        android:onClick="onClickEqual"
+                        android:text="="
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSize" />
+                </LinearLayout>
 
 
             </LinearLayout>

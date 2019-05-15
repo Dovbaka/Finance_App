@@ -184,7 +184,8 @@ public class Add_earn_page extends AppCompatActivity
         ContentValues cv = new ContentValues();
 
         // получаем данные из полей ввода
-        String Category = spinner.getSelectedItem().toString(); // зчитування з спінера
+        String Category = spinner2.getSelectedItem().toString();// зчитування з спінера
+        String destination = spinner.getSelectedItem().toString();
         String Comment = etComment.getText().toString();
         SimpleDateFormat sdf = new SimpleDateFormat("'Date:' yyyy:MM:dd 'Time:' HH:mm:ss");
         String TimeNow = sdf.format(new Date());
@@ -198,7 +199,7 @@ public class Add_earn_page extends AppCompatActivity
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
                 cv.put("category", Category);
-                cv.put("type","From Card");
+                cv.put("type","To " + destination);
                 cv.put("sum", Sum);
                 cv.put("time", TimeNow);
                 cv.put("comment", Comment);
