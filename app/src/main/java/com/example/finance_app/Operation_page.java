@@ -27,8 +27,8 @@ public class Operation_page extends AppCompatActivity {
 
         startManagingCursor(c);
 
-        String[] from = new String[] { "category","sum","type" };
-        int[] to = new int[] { R.id.tvCategory, R.id.tvSum, R.id.tvType };
+        String[] from = new String[] { "category","sum","type","date" };
+        int[] to = new int[] { R.id.tvCategory, R.id.tvSum, R.id.tvType, R.id.tvTime };
         //TODO ця штука як я бачу дуже обмежена в можливостях але я в тебе вірю)
 
         // создааем адаптер и настраиваем список

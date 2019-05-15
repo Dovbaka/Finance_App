@@ -28,11 +28,35 @@ public class MainActivity extends AppCompatActivity
         Cursor c = null;
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String[] columns = null;
-        String groupBy = null;
+
+        int costCard=0;
+        int costCash=0;
+        int balanceCard=0;
+        int balanceCash=0;
         int costs=0;
-        int cash=0;
-        int card=0;
+        String [] columns = new String[] { "type", "sum(sum) as sum" };
+        String groupBy = "type";
+        c = db.query("mytable", columns, null, null, groupBy, null, null);
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    for (String cn : c.getColumnNames()) {
+                        switch (c.getString(c.getColumnIndex(cn)))
+                        {
+                            case "From Cash":
+                                costCash+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                break;
+                            case "From Card":
+                                costCard+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                break;
+                            case "To Card":
+                                balanceCard+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                break;
+                            case "To Cash":
+                                balanceCash+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                break;
+                        }}}
+                while (c.moveToNext()) ;}}
 
         columns = new String[] { "category", "sum(sum) as sum" };
         groupBy = "category";
@@ -51,45 +75,33 @@ public class MainActivity extends AppCompatActivity
                         {
                             case "Cafes & restaurants":
                                 Cafe.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
-                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "Food":
                                 Food.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
-                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "Home":
                                 Home.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
-                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "Transport":
                                 Transport.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
-                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "Shopping":
-                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 Shopping.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
                                 break;
                             case "Gift":
                                 Gift.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
-                                costs+=parseInt(c.getString(c.getColumnIndex(cn)+1));
                                 break;
-                            case "Card":
-                                card+=parseInt(c.getString(c.getColumnIndex(cn)+1));
-                                break;
-                            case "Cash":
-                                cash+=parseInt(c.getString(c.getColumnIndex(cn)+1));
-                                break;
-
                         }}}
                 while (c.moveToNext()) ;
             c.close();
         }
         dbHelper.close();
-            int Res=cash-costs;
-            Cash.setText(""+Res+"$");
-            int total=Res+card;
-            Card.setText(""+card+'$');
-            Total.setText(""+total+"$");
+            int resCard=balanceCard-costCard;
+            int resCash=balanceCash-costCash;
+            int resTotal=resCard+resCash;
+            Card.setText(resCard+"$");
+            Cash.setText(resCash+"$");
+            Total.setText(resTotal+"$");
     }}
 
 
@@ -238,8 +250,5 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent_Add_earn, 1);
                 break;
         }
-
     }
-
-
 }

@@ -27,6 +27,7 @@ public class DataBase extends SQLiteOpenHelper {
                 + "type text,"
                 + "sum text,"
                 + "time text,"
+                + "date text,"
                 + "comment text"
                 + ");");
     }

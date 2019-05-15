@@ -31,7 +31,7 @@ public class Add_page extends AppCompatActivity
     String Sum = "", sign = "";
     double tempDouble, tempDouble2;
 
-    String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift","Cash", "Card"};
+    String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift"};
     String[] data2 = {"Cash", "Card"};
 
     public boolean isInt(double a){
@@ -188,8 +188,10 @@ public class Add_page extends AppCompatActivity
         String Category = spinner.getSelectedItem().toString();// зчитування з спінера
         String destination = spinner2.getSelectedItem().toString();
         String Comment = etComment.getText().toString();
-        SimpleDateFormat sdf = new SimpleDateFormat("'Date:' yyyy:MM:dd 'Time:' HH:mm:ss");
-        String TimeNow = sdf.format(new Date());
+        SimpleDateFormat TimeS = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat DateS = new SimpleDateFormat("yyyy:MM:dd");
+        String TimeNow = TimeS.format(new Date());
+        String DateNow = DateS.format(new Date());
 
         // подключаемся к БД
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -202,8 +204,9 @@ public class Add_page extends AppCompatActivity
                 cv.put("category", Category);
                 cv.put("type","From " + destination);
                 cv.put("sum", Sum);
-                cv.put("time", TimeNow);
                 cv.put("comment", Comment);
+                cv.put("time", TimeNow);
+                cv.put("date", DateNow);
 
                 // вставляем запись и получаем ее ID
                 long rowID = db.insert("mytable", null, cv);
@@ -223,6 +226,7 @@ public class Add_page extends AppCompatActivity
                     int sumColIndex = c.getColumnIndex("sum");
                     int commentColIndex = c.getColumnIndex("comment");
                     int timeColIndex = c.getColumnIndex("time");
+                    int dateColIndex = c.getColumnIndex("date");
 
                     do {
                         // получаем значения по номерам столбцов и пишем все в лог
@@ -232,7 +236,8 @@ public class Add_page extends AppCompatActivity
                                         ", Type = " + c.getString(typeColIndex)+
                                         ", Sum = " + c.getString(sumColIndex)+
                                         ", Comment = " + c.getString(commentColIndex)+
-                                        ", " + c.getString(timeColIndex));
+                                        ", Time = " + c.getString(timeColIndex)+
+                                        ", Date = " + c.getString(dateColIndex) );
                         // переход на следующую строку
                         // а если следующей нет (текущая - последняя), то false - выходим из цикла
                     } while (c.moveToNext());
