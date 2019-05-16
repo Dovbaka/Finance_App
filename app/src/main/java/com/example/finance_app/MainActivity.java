@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DataBase dbHelper;
-    TextView Cafe,Food,Home,Transport,Shopping,Gift,Cash,Card, Total; //TODO Вивести в TetxView "Total" поточний баланс
+    TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card, Total;
     public void DataBaseTakeInformation(){
         dbHelper = new DataBase(this);
         Cursor c = null;
@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity
         Transport.setText("0$");
         Shopping.setText("0$");
         Gift.setText("0$");
+        Health.setText("0$");
+        Leisure.setText("0$");
+        Family.setText("0$");
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
@@ -90,6 +93,15 @@ public class MainActivity extends AppCompatActivity
                                 break;
                             case "Gift":
                                 Gift.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                            case "Health":
+                                Health.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                            case "Leisure":
+                                Leisure.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                break;
+                            case "Family":
+                                Family.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
                                 break;
                         }}}
                 while (c.moveToNext()) ;
@@ -118,6 +130,9 @@ public class MainActivity extends AppCompatActivity
         Transport = findViewById(R.id.textTransport);
         Shopping = findViewById(R.id.textShopping);
         Gift = findViewById(R.id.textGift);
+        Health = findViewById(R.id.textHealth);
+        Leisure = findViewById(R.id.textLeisure);
+        Family = findViewById(R.id.textFamily);
         Card = findViewById(R.id.textCard);
         Cash = findViewById(R.id.textCash);
         Total = findViewById(R.id.text_Balance_num);
@@ -202,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent_Add = new Intent(this, Add_page.class);
         Intent intent_Add_earn = new Intent(this, Add_earn_page.class);
         String category_name="None";
-        switch (v.getId()) { //TODO Додати Balance в БД, при натисненні "btnCash" і "btnCard" записати в Balance суму.
+        switch (v.getId()) {
             case R.id.btnCafe:
                 category_name = "Cafes & restaurants";
                 intent_Add.putExtra("Category", category_name);
@@ -234,6 +249,24 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btnGift:
                 category_name = "Gift";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
+                break;
+
+            case R.id.btnHealth:
+                category_name = "Health";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
+                break;
+
+            case R.id.btnLeisure:
+                category_name = "Leisure";
+                intent_Add.putExtra("Category", category_name);
+                startActivityForResult(intent_Add, 1);
+                break;
+
+            case R.id.btnFamily:
+                category_name = "Family";
                 intent_Add.putExtra("Category", category_name);
                 startActivityForResult(intent_Add, 1);
                 break;

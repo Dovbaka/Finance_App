@@ -31,7 +31,8 @@ public class Add_page extends AppCompatActivity
     String Sum = "", sign = "";
     double tempDouble, tempDouble2;
 
-    String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift"};
+    String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift",
+            "Health", "Leisure", "Family",};
     String[] data2 = {"Cash", "Card"};
 
     public boolean isInt(double a){
@@ -50,10 +51,10 @@ public class Add_page extends AppCompatActivity
         String cat_name = getIntent().getStringExtra("Category");
 
         // адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_text, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data2);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_text, data2);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -189,7 +190,7 @@ public class Add_page extends AppCompatActivity
         String destination = spinner2.getSelectedItem().toString();
         String Comment = etComment.getText().toString();
         SimpleDateFormat TimeS = new SimpleDateFormat("HH:mm:ss");
-        SimpleDateFormat DateS = new SimpleDateFormat("yyyy:MM:dd");
+        SimpleDateFormat DateS = new SimpleDateFormat("yyyy.MM.dd");
         String TimeNow = TimeS.format(new Date());
         String DateNow = DateS.format(new Date());
 

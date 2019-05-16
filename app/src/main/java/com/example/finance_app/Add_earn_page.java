@@ -49,10 +49,10 @@ public class Add_earn_page extends AppCompatActivity
 
         String cat_name = getIntent().getStringExtra("Category");
         // адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_text, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data2);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_text, data2);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -188,7 +188,7 @@ public class Add_earn_page extends AppCompatActivity
         String destination = spinner.getSelectedItem().toString();
         String Comment = etComment.getText().toString();
         SimpleDateFormat TimeS = new SimpleDateFormat("HH:mm:ss");
-        SimpleDateFormat DateS = new SimpleDateFormat("yyyy:MM:dd");
+        SimpleDateFormat DateS = new SimpleDateFormat("yyyy.MM.dd");
         String TimeNow = TimeS.format(new Date());
         String DateNow = DateS.format(new Date());
 
