@@ -8,12 +8,10 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,8 +62,53 @@ public class Operation_page extends AppCompatActivity {
                         m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
                         switch (c.getString(c.getColumnIndex(cn))){
                             //Тута задаш іконку для категорій
+
+                            case "Salary":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.salary);
+                                break;
+
+                            case "Card":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.card);
+                                break;
+
+                            case "Cash":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.cash);
+                                break;
+
                             case "Cafes & restaurants":
-                              m.put(ATTRIBUTE_NAME_IMAGE,img = plus);
+                              m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.coffee);
+                                break;
+
+                            case "Transport":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.car);
+                                break;
+
+                            case "Home":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.home);
+                                break;
+
+                            case "Food":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.food);
+                                break;
+
+                            case "Gift":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.gift);
+                                break;
+
+                            case "Shopping":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.shop);
+                                break;
+
+                            case "Leisure":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.leisure);
+                                break;
+
+                            case "Health":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.health);
+                                break;
+
+                            case "Family":
+                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.family);
                                 break;
                         }
                             data.add(m);
@@ -97,14 +140,25 @@ public class Operation_page extends AppCompatActivity {
         }
 
         @Override
+        public void setViewText(TextView v, String text) {
+            // метод супер-класса, который вставляет текст
+            super.setViewText(v, text);
+            if (v.getId() == R.id.tvImage) {
+                int i = Integer.parseInt(text);
+                if (i < 0) v.setTextColor(Color.RED); else
+                if (i > 0) v.setTextColor(Color.GREEN);
+            }
+        }
+
+       /* @Override
         public void setViewImage(ImageView v, int value) {
             // метод супер-класса
             super.setViewImage(v, value);
             // разрисовываем ImageView
             if (value == plus) v.setBackgroundColor(0); else
             if (value == 0) v.setBackgroundColor(Color.GREEN);
-            //TODO готово тільки іконки замутиш сам, записуєш в змінні їх, нащод беграунда я хз, і для кожної категорії сам мути цю фігню
-        }
+
+        }*/
     }
 
 }

@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Operation_page"></activity>
+        <activity android:name=".Operation_page"
+            android:label="History"></activity>
         <activity
             android:name=".Add_page"
+            android:label="Add payment"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
@@ -25,6 +27,7 @@
         </activity>
         <activity
             android:name=".Add_earn_page"
+            android:label="Add earn"
             android:windowSoftInputMode="adjustPan" />
     </application>
 
