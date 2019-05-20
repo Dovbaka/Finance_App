@@ -8,6 +8,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
 
 public class Operation_page extends AppCompatActivity {
 
@@ -34,6 +38,7 @@ public class Operation_page extends AppCompatActivity {
     final String ATTRIBUTE_NAME_TYPE = "type";
     final String ATTRIBUTE_NAME_DATE = "date";
     final String ATTRIBUTE_NAME_IMAGE = "image";
+    final String ATTRIBUTE_NAME_COMMENT = "comment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class Operation_page extends AppCompatActivity {
         dbHelper = new DataBase(this);
         Cursor c = null;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String [] columns = new String[] { "category", "sum", "type", "date" };
+        String [] columns = new String[] { "category", "sum","type", "date","comment" };
         c = db.query("mytable", columns, null, null, null, null, null);
         ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>(
         c.getCount());
@@ -57,12 +62,16 @@ public class Operation_page extends AppCompatActivity {
                         if (cn.equals("category")){
                         m = new HashMap<String, Object>();
                         m.put(ATTRIBUTE_NAME_CATEGORY, c.getString(c.getColumnIndex(cn)));
-                        m.put(ATTRIBUTE_NAME_SUM, c.getString(c.getColumnIndex(cn)+1));
                         m.put(ATTRIBUTE_NAME_TYPE, c.getString(c.getColumnIndex(cn)+2));
-                        m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
-                        switch (c.getString(c.getColumnIndex(cn))){
-                            //Тута задаш іконку для категорій
+                        if (c.getString(c.getColumnIndex(cn)+2).equals("From Cash")||
+                                c.getString(c.getColumnIndex(cn)+2).equals("From Card"))
+                        m.put(ATTRIBUTE_NAME_SUM, "- "+c.getString(c.getColumnIndex(cn)+1));
+                        else
+                        m.put(ATTRIBUTE_NAME_SUM, "+ "+c.getString(c.getColumnIndex(cn)+1));
 
+                        m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
+                        m.put(ATTRIBUTE_NAME_COMMENT, c.getString(c.getColumnIndex(cn)+4));
+                        switch (c.getString(c.getColumnIndex(cn))){
                             case "Salary":
                                 m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.salary);
                                 break;
@@ -121,6 +130,7 @@ public class Operation_page extends AppCompatActivity {
         startManagingCursor(c);
         String[] from = { ATTRIBUTE_NAME_CATEGORY, ATTRIBUTE_NAME_SUM,ATTRIBUTE_NAME_TYPE,
                 ATTRIBUTE_NAME_DATE, ATTRIBUTE_NAME_IMAGE };
+        //TODO ATTRIBUTE_NAME_COMMENT записати верх i відповідно нижче додати для нього мсіце
         int[] to = new int[] {R.id.tvCategory, R.id.tvSum, R.id.tvType, R.id.tvTime, R.id.tvImage };
 
         // создааем адаптер и настраиваем список
@@ -143,22 +153,11 @@ public class Operation_page extends AppCompatActivity {
         public void setViewText(TextView v, String text) {
             // метод супер-класса, который вставляет текст
             super.setViewText(v, text);
-            if (v.getId() == R.id.tvImage) {
-                int i = Integer.parseInt(text);
-                if (i < 0) v.setTextColor(Color.RED); else
-                if (i > 0) v.setTextColor(Color.GREEN);
-            }
-        }
+            if (v.getId() == R.id.tvSum) {
+                String i = String.valueOf(text.charAt(0));
+                if (i.equals("-")) v.setTextColor(Color.RED);
+                else v.setTextColor(Color.GREEN);}
 
-       /* @Override
-        public void setViewImage(ImageView v, int value) {
-            // метод супер-класса
-            super.setViewImage(v, value);
-            // разрисовываем ImageView
-            if (value == plus) v.setBackgroundColor(0); else
-            if (value == 0) v.setBackgroundColor(Color.GREEN);
+        }}}
 
-        }*/
-    }
 
-}
