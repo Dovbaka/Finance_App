@@ -40,6 +40,8 @@ public class Operation_page extends AppCompatActivity {
     final String ATTRIBUTE_NAME_IMAGE = "image";
     final String ATTRIBUTE_NAME_COMMENT = "comment";
 
+    String valute = "$";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +67,9 @@ public class Operation_page extends AppCompatActivity {
                         m.put(ATTRIBUTE_NAME_TYPE, c.getString(c.getColumnIndex(cn)+2));
                         if (c.getString(c.getColumnIndex(cn)+2).equals("From Cash")||
                                 c.getString(c.getColumnIndex(cn)+2).equals("From Card"))
-                        m.put(ATTRIBUTE_NAME_SUM, "- "+c.getString(c.getColumnIndex(cn)+1));
+                        m.put(ATTRIBUTE_NAME_SUM, "- " + c.getString(c.getColumnIndex(cn)+1) + valute);
                         else
-                        m.put(ATTRIBUTE_NAME_SUM, "+ "+c.getString(c.getColumnIndex(cn)+1));
+                        m.put(ATTRIBUTE_NAME_SUM, "+ " + c.getString(c.getColumnIndex(cn)+1) + valute);
 
                         m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
                         m.put(ATTRIBUTE_NAME_COMMENT, c.getString(c.getColumnIndex(cn)+4));
@@ -156,8 +158,10 @@ public class Operation_page extends AppCompatActivity {
             if (v.getId() == R.id.tvSum) {
                 String i = String.valueOf(text.charAt(0));
                 if (i.equals("-")) v.setTextColor(Color.RED);
-                else v.setTextColor(Color.GREEN);}
-
-        }}}
+                else v.setTextColor(getResources().getColor(R.color.green_color));
+            }
+        }
+    }
+}
 
 
