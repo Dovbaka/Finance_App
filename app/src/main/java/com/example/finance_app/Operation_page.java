@@ -26,12 +26,6 @@ public class Operation_page extends AppCompatActivity {
 
     DataBase dbHelper;
     ListView lvData;
-    SimpleCursorAdapter scAdapter;
-    Cursor cursor;
-
-    final int plus = android.R.drawable.ic_lock_power_off;
-
-    //int IMAGES[] = {R.drawable.coffee};
 
     final String ATTRIBUTE_NAME_CATEGORY = "category";
     final String ATTRIBUTE_NAME_SUM = "sum";
@@ -51,7 +45,8 @@ public class Operation_page extends AppCompatActivity {
         Cursor c = null;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String [] columns = new String[] { "category", "sum","type", "date","comment" };
-        c = db.query("mytable", columns, null, null, null, null, null);
+        String orderBy = "_id";
+        c = db.query("mytable", columns, null, null, null, null, orderBy + " DESC");
         ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>(
         c.getCount());
         Map<String, Object> m;
@@ -60,7 +55,6 @@ public class Operation_page extends AppCompatActivity {
                 int img=0;
                 do {
                     for (String cn : c.getColumnNames()) {
-                        Log.d("myLog",cn);
                         if (cn.equals("category")){
                         m = new HashMap<String, Object>();
                         m.put(ATTRIBUTE_NAME_CATEGORY, c.getString(c.getColumnIndex(cn)));
@@ -127,7 +121,7 @@ public class Operation_page extends AppCompatActivity {
                     }
                 } while (c.moveToNext());
             }
-            c.close();
+          //  c.close();
         }
         startManagingCursor(c);
         String[] from = { ATTRIBUTE_NAME_CATEGORY, ATTRIBUTE_NAME_SUM,ATTRIBUTE_NAME_TYPE,

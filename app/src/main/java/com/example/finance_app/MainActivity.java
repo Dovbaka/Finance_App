@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        int costCard=0;
-        int costCash=0;
-        int balanceCard=0;
-        int balanceCash=0;
-        int costs=0;
+        double costCard=0;
+        double costCash=0;
+        double balanceCard=0;
+        double balanceCash=0;
+        double costs=0;
         String [] columns = new String[] { "type", "sum(sum) as sum" };
         String groupBy = "type";
         c = db.query("mytable", columns, null, null, groupBy, null, null);
@@ -44,16 +44,16 @@ public class MainActivity extends AppCompatActivity
                         switch (c.getString(c.getColumnIndex(cn)))
                         {
                             case "From Cash":
-                                costCash+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                costCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "From Card":
-                                costCard+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                costCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "To Card":
-                                balanceCard+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                balanceCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "To Cash":
-                                balanceCash+=parseInt(c.getString(c.getColumnIndex(cn)+1));
+                                balanceCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                         }}}
                 while (c.moveToNext()) ;}}
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity
             c.close();
         }
         dbHelper.close();
-            int resCard=balanceCard-costCard;
-            int resCash=balanceCash-costCash;
-            int resTotal=resCard+resCash;
+            double resCard=balanceCard-costCard;
+            double resCash=balanceCash-costCash;
+            double resTotal=resCard+resCash;
             Card.setText(resCard+"$");
             Cash.setText(resCash+"$");
             Total.setText(resTotal+"$");
