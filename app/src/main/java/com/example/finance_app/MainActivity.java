@@ -3,6 +3,7 @@ package com.example.finance_app;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import java.text.DecimalFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity
 
     DataBase dbHelper;
     TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card, Total;
+
+    DecimalFormat format = new DecimalFormat("#.#");
+
     public void DataBaseTakeInformation(){
         dbHelper = new DataBase(this);
         Cursor c = null;
@@ -111,9 +115,9 @@ public class MainActivity extends AppCompatActivity
             double resCard=balanceCard-costCard;
             double resCash=balanceCash-costCash;
             double resTotal=resCard+resCash;
-            Card.setText(resCard+"$");
-            Cash.setText(resCash+"$");
-            Total.setText(resTotal+"$");
+            Card.setText(format.format(resCard)+"$");
+            Cash.setText(format.format(resCash)+"$");
+            Total.setText(format.format(resTotal)+"$");
     }}
 
 

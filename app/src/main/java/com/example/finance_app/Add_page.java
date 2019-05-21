@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,7 +19,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Add_page extends AppCompatActivity
-        implements  View.OnClickListener{//TODO SUM не має бути відємним
+        implements  View.OnClickListener{
 
     final String LOG_TAG = "myLogs";
     View database_lay,equal_lay;
@@ -30,6 +31,7 @@ public class Add_page extends AppCompatActivity
     Cursor cursor;
     String Sum = "", sign = "";
     double tempDouble, tempDouble2;
+    int max_row = 5;
 
     String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift",
             "Health", "Leisure", "Family",};
@@ -94,22 +96,28 @@ public class Add_page extends AppCompatActivity
     }
 
     public void onClickNumber(View v) {
-        Button bn = (Button) v;
-        Sum += bn.getText();
-        numbers.setText(Sum);
+        if(max_row > 0) {
+            Button bn = (Button) v;
+            Sum += bn.getText();
+            max_row--;
+            numbers.setText(Sum);
+        }
         }
 
     public void onClickOperator(View v) {
-        Button bn = (Button) v;
-        Sum = "";
-        tempDouble = Double.parseDouble(numbers.getText().toString());
-        numbers.setText(bn.getText().toString());
-        sign = bn.getText().toString();
-        database_lay.setVisibility( View.GONE );
-        equal_lay.setVisibility( View.VISIBLE );
+        if (!(TextUtils.isEmpty(numbers.getText().toString()))) {
+            max_row = 5;
+            Button bn = (Button) v;
+            Sum = "";
+            tempDouble = Double.parseDouble(numbers.getText().toString());
+            numbers.setText(bn.getText().toString());
+            sign = bn.getText().toString();
+            database_lay.setVisibility(View.GONE);
+            equal_lay.setVisibility(View.VISIBLE);
+        }
     }
 
-    public void onClickEqual(View v){ //TODO Додати валідацію. Обмежити цифри після коми до 2
+    public void onClickEqual(View v){
         tempDouble2 = Double.parseDouble(numbers.getText().toString());
         double tempsum = 0;
 
@@ -158,6 +166,7 @@ public class Add_page extends AppCompatActivity
 
     public void onClickDot(View v) {
         if(!Sum.contains(".")){
+            max_row = 2;
             if (Sum.length() >= 1) {
                 Sum += ".";
                 numbers.setText(Sum);
@@ -170,10 +179,12 @@ public class Add_page extends AppCompatActivity
 
     public void onClickRemove(View v) {
         if (Sum.length() >1 ) {
+            max_row++;
             Sum = Sum.substring(0, Sum.length() - 1);
             numbers.setText(Sum);
         }
         else if (Sum.length() <=1 ) {
+            max_row = 5;
             Sum = "";
             numbers.setText("0");
         }
@@ -190,7 +201,7 @@ public class Add_page extends AppCompatActivity
         String destination = spinner2.getSelectedItem().toString();
         String Comment = etComment.getText().toString();
         SimpleDateFormat TimeS = new SimpleDateFormat("HH:mm:ss");
-        SimpleDateFormat DateS = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat DateS = new SimpleDateFormat("dd.MM.yyyy");
         String TimeNow = TimeS.format(new Date());
         String DateNow = DateS.format(new Date());
 
