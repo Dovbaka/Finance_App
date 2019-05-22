@@ -8,6 +8,11 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieEntry;
+
+import java.util.ArrayList;
+
 public class DataBase extends SQLiteOpenHelper {
 
     public DataBase(Context context) {

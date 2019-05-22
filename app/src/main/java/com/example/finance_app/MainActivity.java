@@ -201,6 +201,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent_Operation = new Intent(this, Operation_page.class);
             startActivityForResult(intent_Operation, 1);
         } else if (id == R.id.nav_gallery) {
+            Intent intent_Chart = new Intent(this, Chart_page.class);
+            startActivityForResult(intent_Chart, 1);
 
         } else if (id == R.id.nav_slideshow) {
 
