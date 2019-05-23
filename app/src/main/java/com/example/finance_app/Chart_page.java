@@ -5,32 +5,35 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Chart_page extends AppCompatActivity {
 
+    public static final int[] CHART_COLORS = {
+            Color.rgb(255, 245, 0)/*Yellow*/,
+            Color.rgb(0, 8, 202)/*dark blue*/,
+            Color.rgb(5, 226, 0)/*Green*/,
+            Color.rgb(255, 168, 0)/*Orange*/,
+            Color.rgb(0, 129, 223)/*Azure*/,
+            Color.rgb(192, 0, 0)/*Red*/,
+            Color.rgb(44, 215, 192)/*Blue*/,
+            Color.rgb(255, 0, 148)/*Pink*/ ,
+            Color.rgb(135, 135, 135)/*Grey*/
+    };
+
     DataBase dbHelper;
 
-    final String ATTRIBUTE_NAME_CATEGORY = "category";
-    final String ATTRIBUTE_NAME_SUM = "sum";
-    final String ATTRIBUTE_NAME_TYPE = "type";
-    final String ATTRIBUTE_NAME_DATE = "date";
-
-    String category[] = {"Food", "Transport", "Health", "Home"};
-    float cost[] = {5125, 512, 350.5f, 720};
+    String[] category = { "Cafe", "Food", "Home", "Transport", "Shopping", "gift",
+            "Health", "Leisure", "Family" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +47,9 @@ public class Chart_page extends AppCompatActivity {
 
         ArrayList<PieEntry> pieEntries = getPieEntries();
 
-        PieDataSet dataSet = new PieDataSet(pieEntries, "Categories");
+        PieDataSet dataSet = new PieDataSet(pieEntries, "");
 
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        dataSet.setColors(CHART_COLORS);
 
         PieData data = new PieData(dataSet);
 
@@ -54,37 +57,42 @@ public class Chart_page extends AppCompatActivity {
 
         data.setValueFormatter(new PercentFormatter(chart));
         data.setValueTextColor(Color.WHITE);
-        data.setValueTextSize(0);
+        data.setValueTextSize(10);
 
-        /*dataSet.setValueLinePart1OffsetPercentage(0.1f);
-        dataSet.setValueLinePart1Length(0.1f);
+        dataSet.setValueLinePart1Length(0.4f);
         dataSet.setValueLinePart2Length(0.1f);
-        dataSet.setValueLineColor(Color.WHITE);
+        dataSet.setSliceSpace(3);
+        //dataSet.setValueLineColor(Color.WHITE);
+        dataSet.setUsingSliceColorAsValueLineColor(true);
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);*/
+        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
 
         chart.setUsePercentValues(true);
-        chart.setHoleRadius(90);
+        chart.setHoleRadius(60);
         chart.setTransparentCircleRadius(0);
         chart.setEntryLabelColor(0);
         chart.getDescription().setEnabled(false);
         chart.setHoleColor(0);
         chart.animateY(500);
+        chart.setExtraOffsets(15,10,15,5);
+        chart.setDragDecelerationFrictionCoef(10f);
 
-        //chart.setExtraTopOffset(10);
         chart.setExtraBottomOffset(10);
 
-        Legend l= chart.getLegend();
-        l.setTextColor(Color.WHITE);
-        l.setForm(Legend.LegendForm.CIRCLE);
-        l.setFormSize(20);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setYEntrySpace(10f);
-        l.setYOffset(10f);
+        Legend legend = chart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setFormSize(20);
+        chart.getLegend().setWordWrapEnabled(true);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setDrawInside(false);
+        legend.setYEntrySpace(10f);
+        legend.setYOffset(20f);
+        legend.setXOffset(20f);
+        legend.setTextColor(Color.WHITE);
+        //chart.getLegend().setEnabled(false);
 
         chart.setData(data);
     }
@@ -102,6 +110,7 @@ public class Chart_page extends AppCompatActivity {
             rv.add(new PieEntry(c.getFloat(c.getColumnIndex(sum)), c.getString(c.getColumnIndex("category"))));
         }
         c.close();
+
         return rv;
     }
 }
