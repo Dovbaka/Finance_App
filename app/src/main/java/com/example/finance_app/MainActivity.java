@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity
         DataBase dbHelper;
         ContentValues cv = new ContentValues();
         String valut_type [] = { "$", "₴", "€", " RUB"};
-        int course[] = { 2, 1, 3, 1};
+        double course[] = { 1, 26.37, 0.89, 64.45};
         dbHelper = new DataBase(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = null;
-        String k =curent_value;
+        String k = curent_value;
         c = db.query("valut", null, null, null, null, null, null);
         if (c.getCount() == 0) {
             for (int i = 0; i < 4; i++) {
@@ -157,31 +157,40 @@ public class MainActivity extends AppCompatActivity
                         switch (c.getString(c.getColumnIndex(cn)))
                         {
                             case "Cafes & restaurants":
-                                Cafe.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Cafe.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                             case "Food":
-                                Food.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Food.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                             case "Home":
-                                Home.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Home.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                             case "Transport":
-                                Transport.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Transport.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                             case "Shopping":
-                                Shopping.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Shopping.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                             case "Gift":
-                                Gift.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Gift.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                             case "Health":
-                                Health.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Health.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                             case "Leisure":
-                                Leisure.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Leisure.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                             case "Family":
-                                Family.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
+                                Family.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
                                 break;
                         }}}
                 while (c.moveToNext()) ;
@@ -248,29 +257,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
-
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
