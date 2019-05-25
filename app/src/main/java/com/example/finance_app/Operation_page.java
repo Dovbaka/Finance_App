@@ -66,7 +66,10 @@ public class Operation_page extends AppCompatActivity {
                         m.put(ATTRIBUTE_NAME_SUM, "+ " + c.getString(c.getColumnIndex(cn)+1) + valute);
 
                         m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
-                        m.put(ATTRIBUTE_NAME_COMMENT, c.getString(c.getColumnIndex(cn)+4));
+                        if (c.getString(c.getColumnIndex(cn)+4).equals(""))
+                        m.put(ATTRIBUTE_NAME_COMMENT, "No comment");
+                        else
+                        m.put(ATTRIBUTE_NAME_COMMENT,  c.getString(c.getColumnIndex(cn)+4));
                         switch (c.getString(c.getColumnIndex(cn))){
                             case "Salary":
                                 m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.salary);
@@ -125,9 +128,9 @@ public class Operation_page extends AppCompatActivity {
         }
         startManagingCursor(c);
         String[] from = { ATTRIBUTE_NAME_CATEGORY, ATTRIBUTE_NAME_SUM,ATTRIBUTE_NAME_TYPE,
-                ATTRIBUTE_NAME_DATE, ATTRIBUTE_NAME_IMAGE };
+                ATTRIBUTE_NAME_DATE, ATTRIBUTE_NAME_IMAGE, ATTRIBUTE_NAME_COMMENT };
         //TODO ATTRIBUTE_NAME_COMMENT записати верх i відповідно нижче додати для нього мсіце
-        int[] to = new int[] {R.id.tvCategory, R.id.tvSum, R.id.tvType, R.id.tvTime, R.id.tvImage };
+        int[] to = new int[] {R.id.tvCategory, R.id.tvSum, R.id.tvType, R.id.tvTime, R.id.tvImage, R.id.comment };
 
         // создааем адаптер и настраиваем список
         MySimpleAdapter sAdapter = new MySimpleAdapter(this, data,

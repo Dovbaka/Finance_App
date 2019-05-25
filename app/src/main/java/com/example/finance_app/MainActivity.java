@@ -33,13 +33,14 @@ public class MainActivity extends AppCompatActivity
 
     DecimalFormat format = new DecimalFormat("#.#");
 
-    String currency[] = { "USD", "UAH", "EUR", "RUB" };
+    String currency[] = { "$", "₴", "€", " RUB" };
 
-    Object current_currency;
+    Object current_currency = "$";
+
     public void ValutUpdater(String curent_value){
         DataBase dbHelper;
         ContentValues cv = new ContentValues();
-        String valut_type [] = { "USD", "UAH", "EUR","RUB"};
+        String valut_type [] = { "$", "₴", "€", " RUB"};
         int course[] = { 2, 1, 3, 1};
         dbHelper = new DataBase(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity
                                 costCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "From Card":
-                                costCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
+                                costCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
                                 break;
                             case "To Card":
                                 balanceCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
@@ -117,15 +118,15 @@ public class MainActivity extends AppCompatActivity
         columns = new String[] { "category", "sum(sum) as sum" };
         groupBy = "category";
         c = db.query("mytable", columns, null, null, groupBy, null, null);
-        Cafe.setText("0$");
-        Food.setText("0$");
-        Home.setText("0$");
-        Transport.setText("0$");
-        Shopping.setText("0$");
-        Gift.setText("0$");
-        Health.setText("0$");
-        Leisure.setText("0$");
-        Family.setText("0$");
+        Cafe.setText("0" + current_currency);
+        Food.setText("0" + current_currency);
+        Home.setText("0" + current_currency);
+        Transport.setText("0" + current_currency);
+        Shopping.setText("0" + current_currency);
+        Gift.setText("0" + current_currency);
+        Health.setText("0" + current_currency);
+        Leisure.setText("0" + current_currency);
+        Family.setText("0" + current_currency);
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
@@ -133,31 +134,31 @@ public class MainActivity extends AppCompatActivity
                         switch (c.getString(c.getColumnIndex(cn)))
                         {
                             case "Cafes & restaurants":
-                                Cafe.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Cafe.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                             case "Food":
-                                Food.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Food.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                             case "Home":
-                                Home.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Home.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                             case "Transport":
-                                Transport.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Transport.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                             case "Shopping":
-                                Shopping.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Shopping.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                             case "Gift":
-                                Gift.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Gift.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                             case "Health":
-                                Health.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Health.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                             case "Leisure":
-                                Leisure.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Leisure.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                             case "Family":
-                                Family.setText(c.getString(c.getColumnIndex(cn)+1)+"$");
+                                Family.setText(c.getString(c.getColumnIndex(cn)+1)+ current_currency);
                                 break;
                         }}}
                 while (c.moveToNext()) ;
@@ -167,9 +168,9 @@ public class MainActivity extends AppCompatActivity
             double resCard=balanceCard-costCard;
             double resCash=balanceCash-costCash;
             double resTotal=resCard+resCash;
-            Card.setText(format.format(resCard)+"$");
-            Cash.setText(format.format(resCash)+"$");
-            Total.setText(format.format(resTotal)+"$");
+            Card.setText(format.format(resCard)+ current_currency);
+            Cash.setText(format.format(resCash)+ current_currency);
+            Total.setText(format.format(resTotal)+ current_currency);
     }}
 
 
@@ -358,6 +359,7 @@ public class MainActivity extends AppCompatActivity
             current_currency = lv.getAdapter().getItem(lv.getCheckedItemPosition());//це запамятвовування в змінну
             Log.d("myLog", (String) current_currency);
             ValutUpdater((String) current_currency);
+            onResume();
         }
     };
 }
