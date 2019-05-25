@@ -2,6 +2,7 @@ package com.example.finance_app;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -35,6 +36,48 @@ public class MainActivity extends AppCompatActivity
     String currency[] = { "USD", "UAH", "EUR", "RUB" };
 
     Object current_currency;
+    public void ValutUpdater(String curent_value){
+        DataBase dbHelper;
+        ContentValues cv = new ContentValues();
+        String valut_type [] = { "USD", "UAH", "EUR","RUB"};
+        int course[] = { 2, 1, 3, 1};
+        dbHelper = new DataBase(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = null;
+        String k =curent_value;
+        c = db.query("valut", null, null, null, null, null, null);
+        if (c.getCount() == 0) {
+            for (int i = 0; i < 4; i++) {
+                cv.put("valut_type", valut_type[i]);
+                cv.put("course", course[i]);
+                Log.d("myLog", "id = " + db.insert("valut", null, cv));
+            }
+        }
+
+        c = db.query("valut", null, null, null, null, null, null);
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    for (String cn : c.getColumnNames()) {
+                        switch (cn){
+                            case ("valut_type"):
+                                if(!k.equals(c.getString(c.getColumnIndex(cn)))){
+                                    cv.put("state", "Not Active");
+                                    db.update("valut", cv, "_id = ?",
+                                            new String[] { c.getString(c.getColumnIndex(cn)-1) });
+                                    Log.d("myLog",c.getString(c.getColumnIndex(cn))+" Update");
+                                }
+                                else{
+                                    cv.put("state", "Active");
+                                    db.update("valut", cv, "_id = ?",
+                                            new String[] { c.getString(c.getColumnIndex(cn)-1) });
+                                    Log.d("myLog",c.getString(c.getColumnIndex(cn))+" not Update");}
+                                break;
+                        }}}
+                while (c.moveToNext()) ;}
+            c.close();}
+        dbHelper.close();
+    }
 
     public void DataBaseTakeInformation(){
         dbHelper = new DataBase(this);
@@ -303,8 +346,8 @@ public class MainActivity extends AppCompatActivity
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle("Select currency");
         adb.setSingleChoiceItems(currency, -1, myClickListener);
-
         adb.setPositiveButton("OK", myClickListener);
+
         return adb.create();
     }
 
@@ -313,6 +356,8 @@ public class MainActivity extends AppCompatActivity
         public void onClick(DialogInterface dialog, int which) {
             ListView lv = ((AlertDialog) dialog).getListView();
             current_currency = lv.getAdapter().getItem(lv.getCheckedItemPosition());//це запамятвовування в змінну
+            Log.d("myLog", (String) current_currency);
+            ValutUpdater((String) current_currency);
         }
     };
 }

@@ -20,11 +20,9 @@ public class DataBase extends SQLiteOpenHelper {
         super(context, "myDB", null, 1);
     }
 
-    String LOG_TAG = "myLog";
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(LOG_TAG, "--- onCreate database ---");
+        Log.d("myLog", "--- onCreate database ---");
         // создаем таблицу с полями
         db.execSQL("create table mytable ("
                 + "_id integer primary key autoincrement,"
@@ -34,6 +32,13 @@ public class DataBase extends SQLiteOpenHelper {
                 + "time text,"
                 + "date text,"
                 + "comment text"
+                + ");");
+
+        db.execSQL("create table valut ("
+                + "_id integer primary key autoincrement,"
+                + "valut_type text,"
+                + "course text,"
+                + "state text"
                 + ");");
     }
 
