@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DataBase dbHelper;
-    TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card, Total;
+    DataBase dvHelper;
+    TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card, Total,Cost;
 
     DecimalFormat format = new DecimalFormat("#.#");
 
@@ -63,12 +64,16 @@ public class MainActivity extends AppCompatActivity
                         switch (cn){
                             case ("valut_type"):
                                 if(!k.equals(c.getString(c.getColumnIndex(cn)))){
+                                    cv.put("valut_type", c.getString(c.getColumnIndex(cn)));
+                                    cv.put("course", c.getString(c.getColumnIndex(cn)+1));
                                     cv.put("state", "Not Active");
                                     db.update("valut", cv, "_id = ?",
                                             new String[] { c.getString(c.getColumnIndex(cn)-1) });
                                     Log.d("myLog",c.getString(c.getColumnIndex(cn))+" Update");
                                 }
                                 else{
+                                    cv.put("valut_type", c.getString(c.getColumnIndex(cn)));
+                                    cv.put("course", c.getString(c.getColumnIndex(cn)+1));
                                     cv.put("state", "Active");
                                     db.update("valut", cv, "_id = ?",
                                             new String[] { c.getString(c.getColumnIndex(cn)-1) });
@@ -82,16 +87,34 @@ public class MainActivity extends AppCompatActivity
 
     public void DataBaseTakeInformation(){
         dbHelper = new DataBase(this);
+       // dvHelper = new DataBase(this);
         Cursor c = null;
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+//           SQLiteDatabase dv = dvHelper.getWritableDatabase();
+        String [] columns = new String[] { "state","course" };
+        double course=0;
+        c=db.query("valut", columns, null, null, null, null,
+                null);
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    for (String cn : c.getColumnNames())
+                    {
+
+                        if(c.getString(c.getColumnIndex(cn)).equals("Active")){
+                                course+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
+                                Log.d("myLog", String.valueOf(course));
+                        }}}
+                while (c.moveToNext()) ;}}
+
 
         double costCard=0;
         double costCash=0;
         double balanceCard=0;
         double balanceCash=0;
         double costs=0;
-        String [] columns = new String[] { "type", "sum(sum) as sum" };
+        columns = new String[] { "type", "sum(sum) as sum" };
         String groupBy = "type";
         c = db.query("mytable", columns, null, null, groupBy, null, null);
         if (c != null) {
@@ -101,16 +124,16 @@ public class MainActivity extends AppCompatActivity
                         switch (c.getString(c.getColumnIndex(cn)))
                         {
                             case "From Cash":
-                                costCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
+                                costCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course;
                                 break;
                             case "From Card":
-                                costCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
+                                costCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course;
                                 break;
                             case "To Card":
-                                balanceCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
+                                balanceCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course;
                                 break;
                             case "To Cash":
-                                balanceCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
+                                balanceCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course;
                                 break;
                         }}}
                 while (c.moveToNext()) ;}}
@@ -168,6 +191,8 @@ public class MainActivity extends AppCompatActivity
             double resCard=balanceCard-costCard;
             double resCash=balanceCash-costCash;
             double resTotal=resCard+resCash;
+            double resCost=costCard+costCash;
+            Cost.setText(format.format(resCost)+ current_currency);
             Card.setText(format.format(resCard)+ current_currency);
             Cash.setText(format.format(resCash)+ current_currency);
             Total.setText(format.format(resTotal)+ current_currency);
@@ -193,6 +218,7 @@ public class MainActivity extends AppCompatActivity
         Card = findViewById(R.id.textCard);
         Cash = findViewById(R.id.textCash);
         Total = findViewById(R.id.text_Balance_num);
+        Cost = findViewById(R.id.text_Cost_num);
 
         DataBaseTakeInformation();
 
