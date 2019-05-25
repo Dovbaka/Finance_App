@@ -1,5 +1,8 @@
 package com.example.finance_app;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import static java.lang.Integer.parseInt;
@@ -26,6 +31,10 @@ public class MainActivity extends AppCompatActivity
     TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card, Total;
 
     DecimalFormat format = new DecimalFormat("#.#");
+
+    String currency[] = { "USD", "UAH", "EUR", "RUB" };
+
+    Object current_currency;
 
     public void DataBaseTakeInformation(){
         dbHelper = new DataBase(this);
@@ -197,15 +206,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_history) {
             Intent intent_Operation = new Intent(this, Operation_page.class);
             startActivityForResult(intent_Operation, 1);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_statistic) {
             Intent intent_Chart = new Intent(this, Chart_page.class);
             startActivityForResult(intent_Chart, 1);
-
-        } else if (id == R.id.nav_slideshow) {
-
+        } else if (id == R.id.nav_currency) {
+            showDialog(0);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -290,4 +298,21 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
     }
+
+    protected Dialog onCreateDialog(int id) {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setTitle("Select currency");
+        adb.setSingleChoiceItems(currency, -1, myClickListener);
+
+        adb.setPositiveButton("OK", myClickListener);
+        return adb.create();
+    }
+
+    // обработчик нажатия на пункт списка диалога или кнопку
+    DialogInterface.OnClickListener myClickListener = new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which) {
+            ListView lv = ((AlertDialog) dialog).getListView();
+            current_currency = lv.getAdapter().getItem(lv.getCheckedItemPosition());//це запамятвовування в змінну
+        }
+    };
 }
