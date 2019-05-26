@@ -45,13 +45,8 @@ public class Operation_page extends AppCompatActivity {
     String valute = "$";
     Cursor c = null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_operation_page);
-
+    public void ListUpdate(){
         DecimalFormat format = new DecimalFormat("#.##");
-
         dbHelper = new DataBase(this);
         Cursor c = null;
         course = getIntent().getDoubleExtra("Course",1);
@@ -61,7 +56,7 @@ public class Operation_page extends AppCompatActivity {
         String orderBy = "_id";
         c = db.query("mytable", columns, null, null, null, null, orderBy + " DESC");
         ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>(
-        c.getCount());
+                c.getCount());
         Map<String, Object> m;
         if (c != null) {
             if (c.moveToFirst()) {
@@ -69,75 +64,75 @@ public class Operation_page extends AppCompatActivity {
                 do {
                     for (String cn : c.getColumnNames()) {
                         if (cn.equals("category")){
-                        m = new HashMap<String, Object>();
-                        m.put(ATTRIBUTE_NAME_CATEGORY, c.getString(c.getColumnIndex(cn)));
-                        m.put(ATTRIBUTE_NAME_TYPE, c.getString(c.getColumnIndex(cn)+2));
-                        if (c.getString(c.getColumnIndex(cn)+2).equals("From Cash")||
-                                c.getString(c.getColumnIndex(cn)+2).equals("From Card"))
-                            m.put(ATTRIBUTE_NAME_SUM, "- " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course) + valute);
-                        else
-                        m.put(ATTRIBUTE_NAME_SUM, "+ " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course) + valute);
+                            m = new HashMap<String, Object>();
+                            m.put(ATTRIBUTE_NAME_CATEGORY, c.getString(c.getColumnIndex(cn)));
+                            m.put(ATTRIBUTE_NAME_TYPE, c.getString(c.getColumnIndex(cn)+2));
+                            if (c.getString(c.getColumnIndex(cn)+2).equals("From Cash")||
+                                    c.getString(c.getColumnIndex(cn)+2).equals("From Card"))
+                                m.put(ATTRIBUTE_NAME_SUM, "- " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course) + valute);
+                            else
+                                m.put(ATTRIBUTE_NAME_SUM, "+ " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course) + valute);
 
-                        m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
-                        if (c.getString(c.getColumnIndex(cn)+4).equals(""))
-                        m.put(ATTRIBUTE_NAME_COMMENT, "No comment");
-                        else
-                        m.put(ATTRIBUTE_NAME_COMMENT,  c.getString(c.getColumnIndex(cn)+4));
-                        switch (c.getString(c.getColumnIndex(cn))){
-                            case "Salary":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.salary);
-                                break;
+                            m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
+                            if (c.getString(c.getColumnIndex(cn)+4).equals(""))
+                                m.put(ATTRIBUTE_NAME_COMMENT, "No comment");
+                            else
+                                m.put(ATTRIBUTE_NAME_COMMENT,  c.getString(c.getColumnIndex(cn)+4));
+                            switch (c.getString(c.getColumnIndex(cn))){
+                                case "Salary":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.salary);
+                                    break;
 
-                            case "Card":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.card);
-                                break;
+                                case "Card":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.card);
+                                    break;
 
-                            case "Cash":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.cash);
-                                break;
+                                case "Cash":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.cash);
+                                    break;
 
-                            case "Cafes & restaurants":
-                              m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.coffee);
-                                break;
+                                case "Cafes & restaurants":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.coffee);
+                                    break;
 
-                            case "Transport":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.car);
-                                break;
+                                case "Transport":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.car);
+                                    break;
 
-                            case "Home":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.home);
-                                break;
+                                case "Home":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.home);
+                                    break;
 
-                            case "Food":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.food);
-                                break;
+                                case "Food":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.food);
+                                    break;
 
-                            case "Gift":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.gift);
-                                break;
+                                case "Gift":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.gift);
+                                    break;
 
-                            case "Shopping":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.shop);
-                                break;
+                                case "Shopping":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.shop);
+                                    break;
 
-                            case "Leisure":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.leisure);
-                                break;
+                                case "Leisure":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.leisure);
+                                    break;
 
-                            case "Health":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.health);
-                                break;
+                                case "Health":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.health);
+                                    break;
 
-                            case "Family":
-                                m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.family);
-                                break;
-                        }
+                                case "Family":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.family);
+                                    break;
+                            }
                             data.add(m);
-                    }
+                        }
                     }
                 } while (c.moveToNext());
             }
-          //  c.close();
+            //  c.close();
         }
         startManagingCursor(c);
         String[] from = { ATTRIBUTE_NAME_CATEGORY, ATTRIBUTE_NAME_SUM,ATTRIBUTE_NAME_TYPE,
@@ -152,6 +147,13 @@ public class Operation_page extends AppCompatActivity {
         lvData = (ListView) findViewById(R.id.lvData);
         lvData.setAdapter(sAdapter);
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_operation_page);
+        ListUpdate();
         registerForContextMenu(lvData);
     }
     public void onCreateContextMenu(ContextMenu menu, View v,
@@ -182,6 +184,7 @@ public class Operation_page extends AppCompatActivity {
                 }}
             String id = "_id";
             db.delete("mytable", id + " = " + indexs[item.getItemId()], null);
+            ListUpdate();
             return true;
         }
         return super.onContextItemSelected(item);
