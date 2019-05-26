@@ -50,8 +50,9 @@ public class Add_page extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_page);
 
-        String cat_name = getIntent().getStringExtra("Category");
+        //TODO забери курс і множ\діли я хз що то має бути
 
+        String cat_name = getIntent().getStringExtra("Category");
         // адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_text, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -192,7 +193,6 @@ public class Add_page extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-    //    Log.d(LOG_TAG,"Press button");
         // создаем объект для данных
         ContentValues cv = new ContentValues();
 
@@ -221,6 +221,7 @@ public class Add_page extends AppCompatActivity
                 cv.put("date", DateNow);
 
                 // вставляем запись и получаем ее ID
+                //TODO зроби вже нарешті закриття цього вікна якщо операція додана попаянцю
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
                 break;
@@ -260,6 +261,7 @@ public class Add_page extends AppCompatActivity
                 break;
 
             case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку Clear (під кінець роботи з БД)
+                //TODO Вже спокійно можна міняти так як цим я вже давно не користуюсь
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
                 // удаляем все записи
                 int clearCount = db.delete("mytable", null, null);

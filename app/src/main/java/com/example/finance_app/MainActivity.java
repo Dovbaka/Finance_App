@@ -17,9 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,7 +27,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DataBase dbHelper;
-    DataBase dvHelper;
     TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card, Total,Cost;
 
     DecimalFormat format = new DecimalFormat("#.#");
@@ -37,7 +34,6 @@ public class MainActivity extends AppCompatActivity
     String currency[] = { "$", "₴", "€", " RUB" };
 
     Object current_currency = "$";
-
     public void ValutUpdater(String curent_value){
         DataBase dbHelper;
         ContentValues cv = new ContentValues();
@@ -55,7 +51,6 @@ public class MainActivity extends AppCompatActivity
                 Log.d("myLog", "id = " + db.insert("valut", null, cv));
             }
         }
-
         c = db.query("valut", null, null, null, null, null, null);
         if (c != null) {
             if (c.moveToFirst()) {
@@ -68,30 +63,25 @@ public class MainActivity extends AppCompatActivity
                                     cv.put("course", c.getString(c.getColumnIndex(cn)+1));
                                     cv.put("state", "Not Active");
                                     db.update("valut", cv, "_id = ?",
-                                            new String[] { c.getString(c.getColumnIndex(cn)-1) });
-                                    Log.d("myLog",c.getString(c.getColumnIndex(cn))+" Update");
+                                            new String[] { c.getString(c.getColumnIndex(cn)-1) });;
                                 }
                                 else{
                                     cv.put("valut_type", c.getString(c.getColumnIndex(cn)));
                                     cv.put("course", c.getString(c.getColumnIndex(cn)+1));
                                     cv.put("state", "Active");
                                     db.update("valut", cv, "_id = ?",
-                                            new String[] { c.getString(c.getColumnIndex(cn)-1) });
-                                    Log.d("myLog",c.getString(c.getColumnIndex(cn))+" not Update");}
+                                            new String[] { c.getString(c.getColumnIndex(cn)-1) });}
                                 break;
                         }}}
                 while (c.moveToNext()) ;}
             c.close();}
         dbHelper.close();
     }
-
-    public void DataBaseTakeInformation(){
+    public double ValutActivCourse(){
         dbHelper = new DataBase(this);
-       // dvHelper = new DataBase(this);
         Cursor c = null;
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-//           SQLiteDatabase dv = dvHelper.getWritableDatabase();
         String [] columns = new String[] { "state","course" };
         double course=0;
         c=db.query("valut", columns, null, null, null, null,
@@ -103,18 +93,47 @@ public class MainActivity extends AppCompatActivity
                     {
 
                         if(c.getString(c.getColumnIndex(cn)).equals("Active")){
-                                course+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
-                                Log.d("myLog", String.valueOf(course));
+                            course+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1));
+                            Log.d("myLog", String.valueOf(course));
                         }}}
                 while (c.moveToNext()) ;}}
+        return course;
+    }
+    public String ValutActivType(){
+        dbHelper = new DataBase(this);
+        Cursor c = null;
 
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String [] columns = new String[] { "valut_type","state"};
+        String courent="";
+        c=db.query("valut", columns, null, null, null, null,
+                null);
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    for (String cn : c.getColumnNames())
+                    {
 
+                        if(c.getString(c.getColumnIndex(cn)).equals("Active")){
+                            courent+=c.getString(c.getColumnIndex(cn)-1);
+                            Log.d("myLog", courent);
+                        }}}
+                while (c.moveToNext()) ;}}
+        return courent;
+    }
+
+    public void DataBaseTakeInformation(){
+        dbHelper = new DataBase(this);
+        Cursor c = null;
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         double costCard=0;
         double costCash=0;
         double balanceCard=0;
         double balanceCash=0;
         double costs=0;
-        columns = new String[] { "type", "sum(sum) as sum" };
+        double course= ValutActivCourse();
+        String [] columns = new String[] { "type", "sum(sum) as sum" };
         String groupBy = "type";
         c = db.query("mytable", columns, null, null, groupBy, null, null);
         if (c != null) {
@@ -141,15 +160,16 @@ public class MainActivity extends AppCompatActivity
         columns = new String[] { "category", "sum(sum) as sum" };
         groupBy = "category";
         c = db.query("mytable", columns, null, null, groupBy, null, null);
-        Cafe.setText("0" + current_currency);
-        Food.setText("0" + current_currency);
-        Home.setText("0" + current_currency);
-        Transport.setText("0" + current_currency);
-        Shopping.setText("0" + current_currency);
-        Gift.setText("0" + current_currency);
-        Health.setText("0" + current_currency);
-        Leisure.setText("0" + current_currency);
-        Family.setText("0" + current_currency);
+       String courents=ValutActivType();
+        Cafe.setText("0" + courents);
+        Food.setText("0" + courents);
+        Home.setText("0" + courents);
+        Transport.setText("0" + courents);
+        Shopping.setText("0" + courents);
+        Gift.setText("0" + courents);
+        Health.setText("0" + courents);
+        Leisure.setText("0" + courents);
+        Family.setText("0" + courents);
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
@@ -162,35 +182,35 @@ public class MainActivity extends AppCompatActivity
                                 break;
                             case "Food":
                                 Food.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
                                 break;
                             case "Home":
                                 Home.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
                                 break;
                             case "Transport":
                                 Transport.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
                                 break;
                             case "Shopping":
                                 Shopping.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
                                 break;
                             case "Gift":
                                 Gift.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
                                 break;
                             case "Health":
                                 Health.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
                                 break;
                             case "Leisure":
                                 Leisure.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
                                 break;
                             case "Family":
                                 Family.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
                                 break;
                         }}}
                 while (c.moveToNext()) ;
@@ -201,10 +221,10 @@ public class MainActivity extends AppCompatActivity
             double resCash=balanceCash-costCash;
             double resTotal=resCard+resCash;
             double resCost=costCard+costCash;
-            Cost.setText(format.format(resCost)+ current_currency);
-            Card.setText(format.format(resCard)+ current_currency);
-            Cash.setText(format.format(resCash)+ current_currency);
-            Total.setText(format.format(resTotal)+ current_currency);
+            Cost.setText(format.format(resCost)+ courents);
+            Card.setText(format.format(resCard)+ courents);
+            Cash.setText(format.format(resCash)+ courents);
+            Total.setText(format.format(resTotal)+ courents);
     }}
 
 
@@ -228,6 +248,7 @@ public class MainActivity extends AppCompatActivity
         Cash = findViewById(R.id.textCash);
         Total = findViewById(R.id.text_Balance_num);
         Cost = findViewById(R.id.text_Cost_num);
+
 
         DataBaseTakeInformation();
 
@@ -287,69 +308,81 @@ public class MainActivity extends AppCompatActivity
         Intent intent_Add = new Intent(this, Add_page.class);
         Intent intent_Add_earn = new Intent(this, Add_earn_page.class);
         String category_name="None";
+        double course=ValutActivCourse();
         switch (v.getId()) {
             case R.id.btnCafe:
                 category_name = "Cafes & restaurants";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnFood:
                 category_name = "Food";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnHome:
                 category_name = "Home";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
             case R.id.btnTransport:
                 category_name = "Transport";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnShopping:
                 category_name = "Shopping";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnGift:
                 category_name = "Gift";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnHealth:
                 category_name = "Health";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnLeisure:
                 category_name = "Leisure";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnFamily:
                 category_name = "Family";
                 intent_Add.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add, 1);
                 break;
 
             case R.id.btnCash:
                 category_name = "Cash";
                 intent_Add_earn.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add_earn, 1);
                 break;
 
             case R.id.btnCard:
                 category_name = "Card";
                 intent_Add_earn.putExtra("Category", category_name);
+                intent_Add.putExtra("Course", course);
                 startActivityForResult(intent_Add_earn, 1);
                 break;
         }
@@ -360,11 +393,9 @@ public class MainActivity extends AppCompatActivity
         adb.setTitle("Select currency");
         adb.setSingleChoiceItems(currency, -1, myClickListener);
         adb.setPositiveButton("OK", myClickListener);
-
         return adb.create();
     }
 
-    // обработчик нажатия на пункт списка диалога или кнопку
     DialogInterface.OnClickListener myClickListener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
             ListView lv = ((AlertDialog) dialog).getListView();
