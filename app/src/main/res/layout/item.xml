@@ -58,6 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Category"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -100,6 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="0"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textColor="@color/mr_grey_text"
                     android:textSize="18sp"
                     android:textStyle="bold">

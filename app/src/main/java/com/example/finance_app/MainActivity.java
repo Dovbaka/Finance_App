@@ -31,14 +31,14 @@ public class MainActivity extends AppCompatActivity
 
     DecimalFormat format = new DecimalFormat("#.#");
 
-    String currency[] = { "$", "₴", "€", " RUB" };
+    String currency[] = { "$ USD", "₴ UAH", "€ EUR", "¥ RUB" };
 
     Object current_currency = "$";
     public void ValutUpdater(String curent_value){
         DataBase dbHelper;
         ContentValues cv = new ContentValues();
-        String valut_type [] = { "$", "₴", "€", " RUB"};
-        double course[] = { 1, 26.37, 0.89, 64.45};
+        String valut_type [] = { "$", "₴", "€", "¥"};
+        double course[] = { 1, 26.37, 0.89, 109.3};
         dbHelper = new DataBase(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = null;
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         columns = new String[] { "category", "sum(sum) as sum" };
         groupBy = "category";
         c = db.query("mytable", columns, null, null, groupBy, null, null);
-       String courents=ValutActivType();
+        String courents = ValutActivType();
         Cafe.setText("0" + courents);
         Food.setText("0" + courents);
         Home.setText("0" + courents);
@@ -282,9 +282,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        double course=ValutActivCourse();
+        String courents = ValutActivType();
 
         if (id == R.id.nav_history) {
             Intent intent_Operation = new Intent(this, Operation_page.class);
+            intent_Operation.putExtra("Course", course);
+            intent_Operation.putExtra("Course_type", courents);
             startActivityForResult(intent_Operation, 1);
         } else if (id == R.id.nav_statistic) {
             Intent intent_Chart = new Intent(this, Chart_page.class);
@@ -375,14 +379,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.btnCash:
                 category_name = "Cash";
                 intent_Add_earn.putExtra("Category", category_name);
-                intent_Add.putExtra("Course", course);
+                intent_Add_earn.putExtra("Course", course);
                 startActivityForResult(intent_Add_earn, 1);
                 break;
 
             case R.id.btnCard:
                 category_name = "Card";
                 intent_Add_earn.putExtra("Category", category_name);
-                intent_Add.putExtra("Course", course);
+                intent_Add_earn.putExtra("Course", course);
                 startActivityForResult(intent_Add_earn, 1);
                 break;
         }
@@ -399,7 +403,24 @@ public class MainActivity extends AppCompatActivity
     DialogInterface.OnClickListener myClickListener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
             ListView lv = ((AlertDialog) dialog).getListView();
-            current_currency = lv.getAdapter().getItem(lv.getCheckedItemPosition());//це запамятвовування в змінну
+            current_currency = lv.getAdapter().getItem(lv.getCheckedItemPosition());
+            switch ((String)current_currency) {
+                case ("$ USD"):
+                    current_currency = "$";
+                    break;
+
+                case ("₴ UAH"):
+                    current_currency = "₴";
+                    break;
+
+                case ("€ EUR"):
+                    current_currency = "€";
+                    break;
+
+                case ("¥ RUB"):
+                    current_currency = "¥";
+                    break;
+            }
             Log.d("myLog", (String) current_currency);
             ValutUpdater((String) current_currency);
             onResume();

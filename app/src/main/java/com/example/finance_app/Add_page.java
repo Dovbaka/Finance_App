@@ -30,7 +30,7 @@ public class Add_page extends AppCompatActivity
     Spinner spinner, spinner2;
     Cursor cursor;
     String Sum = "", sign = "";
-    double tempDouble, tempDouble2;
+    double tempDouble, tempDouble2, course;
     int max_row = 5;
 
     String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift",
@@ -53,6 +53,7 @@ public class Add_page extends AppCompatActivity
         //TODO забери курс і множ\діли я хз що то має бути
 
         String cat_name = getIntent().getStringExtra("Category");
+        course = getIntent().getDoubleExtra("Course",1);
         // адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_text, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -212,6 +213,7 @@ public class Add_page extends AppCompatActivity
         switch (v.getId()) {
             case R.id.btnAdd:
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
+                Sum = String.valueOf(Double.parseDouble(Sum)/course);
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
                 cv.put("category", Category);
                 cv.put("type","From " + destination);
@@ -224,6 +226,7 @@ public class Add_page extends AppCompatActivity
                 //TODO зроби вже нарешті закриття цього вікна якщо операція додана попаянцю
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
+                finish();
                 break;
             case R.id.btnClose:
                 Log.d(LOG_TAG, "--- Rows in mytable: ---");
@@ -257,11 +260,10 @@ public class Add_page extends AppCompatActivity
                 } else
                     Log.d(LOG_TAG, "0 rows");
                 c.close();
-           //     finish(); // Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
+                //finish(); // Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
                 break;
 
             case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку Clear (під кінець роботи з БД)
-                //TODO Вже спокійно можна міняти так як цим я вже давно не користуюсь
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
                 // удаляем все записи
                 int clearCount = db.delete("mytable", null, null);

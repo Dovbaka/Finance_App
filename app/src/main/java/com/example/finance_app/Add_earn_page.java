@@ -30,7 +30,7 @@ public class Add_earn_page extends AppCompatActivity
     Spinner spinner, spinner2;
     Cursor cursor;
     String Sum = "", sign = "";
-    double tempDouble, tempDouble2;
+    double tempDouble, tempDouble2, course;
     int max_row = 5;
 
     String[] data = {"Cash", "Card"};
@@ -50,6 +50,7 @@ public class Add_earn_page extends AppCompatActivity
         setContentView(R.layout.activity_add_page);
 
         String cat_name = getIntent().getStringExtra("Category");
+        course = getIntent().getDoubleExtra("Course",1);
         // адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_text, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -193,7 +194,6 @@ public class Add_earn_page extends AppCompatActivity
         //    Log.d(LOG_TAG,"Press button");
         // создаем объект для данных
         ContentValues cv = new ContentValues();
-
         // получаем данные из полей ввода
         String Category = spinner2.getSelectedItem().toString();// зчитування з спінера
         String destination = spinner.getSelectedItem().toString();
@@ -210,6 +210,7 @@ public class Add_earn_page extends AppCompatActivity
         switch (v.getId()) {
             case R.id.btnAdd:
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
+                Sum = String.valueOf(Double.parseDouble(Sum)/course);
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
                 cv.put("category", Category);
                 cv.put("type","To " + destination);
@@ -221,6 +222,7 @@ public class Add_earn_page extends AppCompatActivity
                 // вставляем запись и получаем ее ID
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
+                finish();
                 break;
             case R.id.btnClose:
                 Log.d(LOG_TAG, "--- Rows in mytable: ---");

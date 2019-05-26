@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,8 @@ public class Operation_page extends AppCompatActivity {
 
     DataBase dbHelper;
     ListView lvData;
+
+    double course;
 
     final String ATTRIBUTE_NAME_CATEGORY = "category";
     final String ATTRIBUTE_NAME_SUM = "sum";
@@ -41,8 +44,12 @@ public class Operation_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation_page);
 
+        DecimalFormat format = new DecimalFormat("#.##");
+
         dbHelper = new DataBase(this);
         Cursor c = null;
+        course = getIntent().getDoubleExtra("Course",1);
+        String valute = getIntent().getStringExtra("Course_type");
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String [] columns = new String[] { "category", "sum","type", "date","comment" };
         String orderBy = "_id";
@@ -61,9 +68,9 @@ public class Operation_page extends AppCompatActivity {
                         m.put(ATTRIBUTE_NAME_TYPE, c.getString(c.getColumnIndex(cn)+2));
                         if (c.getString(c.getColumnIndex(cn)+2).equals("From Cash")||
                                 c.getString(c.getColumnIndex(cn)+2).equals("From Card"))
-                        m.put(ATTRIBUTE_NAME_SUM, "- " + c.getString(c.getColumnIndex(cn)+1) + valute);
+                            m.put(ATTRIBUTE_NAME_SUM, "- " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course) + valute);
                         else
-                        m.put(ATTRIBUTE_NAME_SUM, "+ " + c.getString(c.getColumnIndex(cn)+1) + valute);
+                        m.put(ATTRIBUTE_NAME_SUM, "+ " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course) + valute);
 
                         m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
                         if (c.getString(c.getColumnIndex(cn)+4).equals(""))
