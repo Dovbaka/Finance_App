@@ -7,7 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.io.IOException;
 import java.text.DecimalFormat;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +25,11 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity
@@ -31,14 +40,18 @@ public class MainActivity extends AppCompatActivity
 
     DecimalFormat format = new DecimalFormat("#.#");
 
-    String currency[] = { "$ USD", "₴ UAH", "€ EUR", "¥ RUB" };
+    double course[] = new double[10];
 
-    Object current_currency = "$";
+    public Elements title;
+
+    String currency[] = { "₴ UAH", "$ USD", "€ EUR", "¥ RUB" };
+
+    Object current_currency = "₴";
     public void ValutUpdater(String curent_value){
         DataBase dbHelper;
         ContentValues cv = new ContentValues();
-        String valut_type [] = { "$", "₴", "€", "¥"};
-        double course[] = { 1, 26.37, 0.89, 109.3};
+        String valut_type [] = { "₴", "$", "€", "¥"};
+        double course_default[] = { 1, 26.37, 0.89, 109.3};
         dbHelper = new DataBase(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = null;
@@ -143,16 +156,16 @@ public class MainActivity extends AppCompatActivity
                         switch (c.getString(c.getColumnIndex(cn)))
                         {
                             case "From Cash":
-                                costCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course;
+                                costCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))/course;
                                 break;
                             case "From Card":
-                                costCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course;
+                                costCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))/course;
                                 break;
                             case "To Card":
-                                balanceCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course;
+                                balanceCard+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))/course;
                                 break;
                             case "To Cash":
-                                balanceCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course;
+                                balanceCash+=Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))/course;
                                 break;
                         }}}
                 while (c.moveToNext()) ;}}
@@ -178,39 +191,39 @@ public class MainActivity extends AppCompatActivity
                         {
                             case "Cafes & restaurants":
                                 Cafe.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + current_currency);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                             case "Food":
                                 Food.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                             case "Home":
                                 Home.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                             case "Transport":
                                 Transport.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                             case "Shopping":
                                 Shopping.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                             case "Gift":
                                 Gift.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                             case "Health":
                                 Health.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                             case "Leisure":
                                 Leisure.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                             case "Family":
                                 Family.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) * course) + courents);
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
                         }}}
                 while (c.moveToNext()) ;
@@ -232,6 +245,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_main);
+
+        new NewThread().execute();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -260,6 +275,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -389,6 +405,42 @@ public class MainActivity extends AppCompatActivity
                 intent_Add_earn.putExtra("Course", course);
                 startActivityForResult(intent_Add_earn, 1);
                 break;
+        }
+    }
+
+    public class NewThread extends AsyncTask<String, Void, String> {
+
+        // Метод выполняющий запрос в фоне, в версиях выше 4 андроида, запросы в главном потоке выполнять
+        // нельзя, поэтому все что вам нужно выполнять - выносите в отдельный тред
+        @Override
+        public String doInBackground(String... arg) {
+
+            // класс который захватывает страницу
+            Document doc;
+            try {
+                // определяем откуда будем воровать данные
+                doc = Jsoup.connect("https://finance.ua/ua/currency").get();
+                // задаем с какого места, я выбрал заголовке статей
+                title = doc.select(".c3");
+                String[] masiv = new String[3];
+                int i = 0;
+                course[0]=1;
+                // и в цикле захватываем все данные какие есть на странице
+                for (Element titles : title) {
+                    if (i < 3) {
+                        masiv[i] = titles.text();
+                        course[i+1] = Double.parseDouble(masiv[i]);
+                        Log.d("myLog", masiv[i] + " next ");
+                        i++;
+                    }
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // ничего не возвращаем потому что я так захотел)
+            return null;
+            //Нада якось повернути той масив або використати його але я хз(
         }
     }
 

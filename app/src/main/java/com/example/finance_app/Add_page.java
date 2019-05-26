@@ -213,7 +213,7 @@ public class Add_page extends AppCompatActivity
         switch (v.getId()) {
             case R.id.btnAdd:
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
-                Sum = String.valueOf(Double.parseDouble(Sum)/course);
+                Sum = String.valueOf(Double.parseDouble(Sum)*course);
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
                 cv.put("category", Category);
                 cv.put("type","From " + destination);
