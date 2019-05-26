@@ -8,7 +8,10 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -28,6 +31,8 @@ public class Operation_page extends AppCompatActivity {
     DataBase dbHelper;
     ListView lvData;
 
+    private static final int CM_DELETE_ID = 1;
+
     double course;
 
     final String ATTRIBUTE_NAME_CATEGORY = "category";
@@ -38,6 +43,7 @@ public class Operation_page extends AppCompatActivity {
     final String ATTRIBUTE_NAME_COMMENT = "comment";
 
     String valute = "$";
+    Cursor c = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +151,40 @@ public class Operation_page extends AppCompatActivity {
         // определяем список и присваиваем ему адаптер
         lvData = (ListView) findViewById(R.id.lvData);
         lvData.setAdapter(sAdapter);
+
+        registerForContextMenu(lvData);
+    }
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, CM_DELETE_ID, 0,"Delete Operation");
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == CM_DELETE_ID) {
+            // получаем из пункта контекстного меню данные по пункту списка
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            // извлекаем id записи и удаляем соответствующую запись в БД
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String[] colums = new String[]{"_id"};
+            String orderBy = "_id";
+            c = db.query("mytable", colums, null, null, null, null, orderBy + " DESC");
+            int[] indexs = new int[10000];
+            int i = 1;
+            if (c != null) {
+                if (c.moveToFirst()) {
+                    do {
+                        for (String cn : c.getColumnNames()) {
+                            indexs[i] = Integer.parseInt(c.getString(c.getColumnIndex(cn)));
+                            i++;
+                        }
+                    } while (c.moveToNext());
+                }}
+            String id = "_id";
+            db.delete("mytable", id + " = " + indexs[item.getItemId()], null);
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     class MySimpleAdapter extends SimpleAdapter {
