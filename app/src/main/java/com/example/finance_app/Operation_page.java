@@ -42,7 +42,7 @@ public class Operation_page extends AppCompatActivity {
     final String ATTRIBUTE_NAME_IMAGE = "image";
     final String ATTRIBUTE_NAME_COMMENT = "comment";
 
-    String valute = "$";
+    String valute = "₴";
     Cursor c = null;
 
     public void ListUpdate(){
@@ -137,7 +137,6 @@ public class Operation_page extends AppCompatActivity {
         startManagingCursor(c);
         String[] from = { ATTRIBUTE_NAME_CATEGORY, ATTRIBUTE_NAME_SUM,ATTRIBUTE_NAME_TYPE,
                 ATTRIBUTE_NAME_DATE, ATTRIBUTE_NAME_IMAGE, ATTRIBUTE_NAME_COMMENT };
-        //TODO ATTRIBUTE_NAME_COMMENT записати верх i відповідно нижче додати для нього мсіце
         int[] to = new int[] {R.id.tvCategory, R.id.tvSum, R.id.tvType, R.id.tvTime, R.id.tvImage, R.id.comment };
 
         // создааем адаптер и настраиваем список

@@ -82,12 +82,13 @@
 
         <TextView
             android:id="@+id/number_text"
-            android:layout_width="320dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/comment"
             android:gravity="bottom|right"
-            android:hint="|"
+            android:hint="0"
             android:padding="10dp"
+            android:singleLine="true"
             android:scrollbars="vertical"
             android:textColor="@color/colorPrimary"
             android:textSize="60sp" />
@@ -165,14 +166,14 @@
                         android:textSize="@dimen/textSize" />
 
                     <Button
-                        android:id="@+id/btnClear"
+                        android:id="@+id/btnDiv"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_margin="@dimen/buttonMargin"
                         android:layout_weight="1"
                         android:background="@color/function_color"
-                        android:onClick="onClick"
+                        android:onClick="onClickOperator"
                         android:text="@string/division"
                         android:textColor="@color/white"
                         android:textSize="@dimen/textSize" />

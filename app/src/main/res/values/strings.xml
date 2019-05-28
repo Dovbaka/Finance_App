@@ -36,5 +36,20 @@
     <string name="clear">C</string>
     <string name="no_comment">No comment</string>
     <string name="no_money">0$</string>
+    <string name="cost">Cost</string>
+    <string name="cash">Cash</string>
+    <string name="card">Card</string>
+    <string name="health">Health</string>
+    <string name="food">Food</string>
+    <string name="shopping">Shopping</string>
+    <string name="leisure">Leisure</string>
+    <string name="home">Home</string>
+    <string name="gift">Gift</string>
+    <string name="family">Family</string>
+    <string name="plan">Plan</string>
+    <string name="total">Total</string>
+    <string name="cafe">Cafe</string>
+    <string name="transport">Transport</string>
+    <string name="Toast_div0">You can\'t divide by 0</string>
 
 </resources>

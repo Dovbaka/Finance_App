@@ -30,7 +30,7 @@
                 android:id="@+id/text_Balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total"
+                android:text="@string/total"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
@@ -59,21 +59,23 @@
                 android:id="@+id/textPlan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Plan"
+                android:text="@string/plan"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/textPlan_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_money"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:text="@string/no_money"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -88,7 +90,7 @@
                 android:id="@+id/text_Cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cost"
+                android:text="@string/cost"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
@@ -133,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Cash"
+                android:text="@string/cash"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -178,7 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Card"
+                android:text="@string/card"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -251,7 +253,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Cafe"
+                android:text="@string/cafe"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -284,7 +286,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Transport"
+                android:text="@string/transport"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -317,7 +319,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Health"
+                android:text="@string/health"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -363,7 +365,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Food"
+                android:text="@string/food"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -398,7 +400,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Shopping"
+                android:text="@string/shopping"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -431,7 +433,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Leisure"
+                android:text="@string/leisure"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -477,7 +479,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Home"
+                android:text="@string/home"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -512,7 +514,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Gift"
+                android:text="@string/gift"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 
@@ -545,7 +547,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="Family"
+                android:text="@string/family"
                 android:textAlignment="center"
                 android:textSize="11sp" />
 

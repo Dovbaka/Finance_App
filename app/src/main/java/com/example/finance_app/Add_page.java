@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,7 +24,7 @@ public class Add_page extends AppCompatActivity
 
     final String LOG_TAG = "myLogs";
     View database_lay,equal_lay;
-    Button btnAdd, btnRead, btnClear, btnTime;
+    Button btnAdd, btnTime;
     TextView numbers;
     EditText etComment;
     DataBase dbHelper;
@@ -32,6 +33,7 @@ public class Add_page extends AppCompatActivity
     String Sum = "", sign = "";
     double tempDouble, tempDouble2, course;
     int max_row = 5;
+    boolean operator_pressed = false;
 
     String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift",
             "Health", "Leisure", "Family",};
@@ -49,8 +51,6 @@ public class Add_page extends AppCompatActivity
         Log.d(LOG_TAG,"Created");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_page);
-
-        //TODO забери курс і множ\діли я хз що то має бути
 
         String cat_name = getIntent().getStringExtra("Category");
         course = getIntent().getDoubleExtra("Course",1);
@@ -79,12 +79,6 @@ public class Add_page extends AppCompatActivity
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
 
-        btnRead = (Button) findViewById(R.id.btnClose);
-        btnRead.setOnClickListener(this);
-
-        btnClear = (Button) findViewById(R.id.btnClear);
-        btnClear.setOnClickListener(this);
-
         btnTime = (Button) findViewById(R.id.btn_Time);
 
         numbers = findViewById(R.id.number_text);
@@ -98,6 +92,7 @@ public class Add_page extends AppCompatActivity
     }
 
     public void onClickNumber(View v) {
+        operator_pressed = false;
         if(max_row > 0) {
             Button bn = (Button) v;
             Sum += bn.getText();
@@ -107,8 +102,9 @@ public class Add_page extends AppCompatActivity
         }
 
     public void onClickOperator(View v) {
-        if (!(TextUtils.isEmpty(numbers.getText().toString()))) {
+        if (!(TextUtils.isEmpty(numbers.getText().toString())) && operator_pressed == false) {
             max_row = 5;
+            operator_pressed = true;
             Button bn = (Button) v;
             Sum = "";
             tempDouble = Double.parseDouble(numbers.getText().toString());
@@ -119,7 +115,9 @@ public class Add_page extends AppCompatActivity
         }
     }
 
+
     public void onClickEqual(View v){
+        operator_pressed = false;
         tempDouble2 = Double.parseDouble(numbers.getText().toString());
         double tempsum = 0;
 
@@ -149,10 +147,9 @@ public class Add_page extends AppCompatActivity
             case "/":
                 tempsum = tempDouble / tempDouble2;
                 if (tempDouble2 == 0) {
-                    if(isInt(tempsum))
-                        numbers.setText(Integer.toString((int)tempsum));
-                    else numbers.setText(Double.toString(tempsum));
-                } else {
+                    Toast.makeText(this, "You can't divide by 0", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     if(isInt(tempsum))
                         numbers.setText(Integer.toString((int)tempsum));
                     else numbers.setText(Double.toString(tempsum));
@@ -167,6 +164,7 @@ public class Add_page extends AppCompatActivity
     }
 
     public void onClickDot(View v) {
+        operator_pressed = false;
         if(!Sum.contains(".")){
             max_row = 2;
             if (Sum.length() >= 1) {
@@ -180,6 +178,7 @@ public class Add_page extends AppCompatActivity
     }
 
     public void onClickRemove(View v) {
+        operator_pressed = false;
         if (Sum.length() >1 ) {
             max_row++;
             Sum = Sum.substring(0, Sum.length() - 1);
@@ -194,10 +193,9 @@ public class Add_page extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        // создаем объект для данных
+
         ContentValues cv = new ContentValues();
 
-        // получаем данные из полей ввода
         String Category = spinner.getSelectedItem().toString();// зчитування з спінера
         String destination = spinner2.getSelectedItem().toString();
         String Comment = etComment.getText().toString();
@@ -206,71 +204,32 @@ public class Add_page extends AppCompatActivity
         String TimeNow = TimeS.format(new Date());
         String DateNow = DateS.format(new Date());
 
-        // подключаемся к БД
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 
         switch (v.getId()) {
             case R.id.btnAdd:
-                Log.d(LOG_TAG, "--- Insert in mytable: ---");
-                Sum = String.valueOf(Double.parseDouble(Sum)*course);
-                // подготовим данные для вставки в виде пар: наименование столбца - значение
-                cv.put("category", Category);
-                cv.put("type","From " + destination);
-                cv.put("sum", Sum);
-                cv.put("comment", Comment);
-                cv.put("time", TimeNow);
-                cv.put("date", DateNow);
+                if ((!(TextUtils.isEmpty(numbers.getText().toString()))) && (!Sum.equals("0"))) {
+                    Log.d(LOG_TAG, "--- Insert in mytable: ---");
+                    Sum = String.valueOf(Double.parseDouble(Sum) * course);
+                    cv.put("category", Category);
+                    cv.put("type", "From " + destination);
+                    cv.put("sum", Sum);
+                    cv.put("comment", Comment);
+                    cv.put("time", TimeNow);
+                    cv.put("date", DateNow);
 
-                // вставляем запись и получаем ее ID
-                //TODO зроби вже нарешті закриття цього вікна якщо операція додана попаянцю
-                long rowID = db.insert("mytable", null, cv);
-                Log.d(LOG_TAG, "row inserted, ID = " + rowID);
+                    long rowID = db.insert("mytable", null, cv);
+                    Log.d(LOG_TAG, "row inserted, ID = " + rowID);
+                    finish();
+                }
+                break;
+
+            case R.id.btnClose:
                 finish();
                 break;
-            case R.id.btnClose:
-                Log.d(LOG_TAG, "--- Rows in mytable: ---");
-                // делаем запрос всех данных из таблицы mytable, получаем Cursor
-                Cursor c = db.query("mytable", null, null, null, null, null, null);
-                // ставим позицию курсора на первую строку выборки
-                // если в выборке нет строк, вернется false
-                if (c.moveToFirst()) {
-                    // определяем номера столбцов по имени в выборке
-                    int idColIndex = c.getColumnIndex("_id");
-                    int categoryColIndex = c.getColumnIndex("category");
-                    int typeColIndex = c.getColumnIndex("type");
-                    int sumColIndex = c.getColumnIndex("sum");
-                    int commentColIndex = c.getColumnIndex("comment");
-                    int timeColIndex = c.getColumnIndex("time");
-                    int dateColIndex = c.getColumnIndex("date");
 
-                    do {
-                        // получаем значения по номерам столбцов и пишем все в лог
-                        Log.d(LOG_TAG,
-                                "ID = " + c.getInt(idColIndex) +
-                                        ", Category = " + c.getString(categoryColIndex) +
-                                        ", Type = " + c.getString(typeColIndex)+
-                                        ", Sum = " + c.getString(sumColIndex)+
-                                        ", Comment = " + c.getString(commentColIndex)+
-                                        ", Time = " + c.getString(timeColIndex)+
-                                        ", Date = " + c.getString(dateColIndex) );
-                        // переход на следующую строку
-                        // а если следующей нет (текущая - последняя), то false - выходим из цикла
-                    } while (c.moveToNext());
-                } else
-                    Log.d(LOG_TAG, "0 rows");
-                c.close();
-                //finish(); // Залишив поки як є щоб можна було тестити, закриває вікно на цю кнопку
-                break;
-
-            case R.id.btnClear: //TODO Кнопка "/". Переназначити кнопку Clear (під кінець роботи з БД)
-                Log.d(LOG_TAG, "--- Clear mytable: ---");
-                // удаляем все записи
-                int clearCount = db.delete("mytable", null, null);
-                Log.d(LOG_TAG, "deleted rows count = " + clearCount);
-                break;
         }
-        // закрываем подключение к БД
         dbHelper.close();
         }
 }

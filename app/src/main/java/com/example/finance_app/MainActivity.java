@@ -44,14 +44,13 @@ public class MainActivity extends AppCompatActivity
 
     public Elements title;
 
-    String currency[] = { "₴ UAH", "$ USD", "€ EUR", "\u20BD RUB" };
+    String currency[] = { "₴ UAH", "$ USD", "€ EUR", "P RUB" };
 
     Object current_currency = "₴";
     public void ValutUpdater(String curent_value){
         DataBase dbHelper;
         ContentValues cv = new ContentValues();
-        String valut_type [] = { "₴", "$", "€", "¥"};
-        double course_default[] = { 1, 26.37, 0.89, 109.3};
+        String valut_type [] = { "₴", "$", "€", "P"};
         dbHelper = new DataBase(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = null;
@@ -469,8 +468,8 @@ public class MainActivity extends AppCompatActivity
                     current_currency = "€";
                     break;
 
-                case ("¥ RUB"):
-                    current_currency = "¥";
+                case ("P RUB"):
+                    current_currency = "P";
                     break;
             }
             Log.d("myLog", (String) current_currency);
