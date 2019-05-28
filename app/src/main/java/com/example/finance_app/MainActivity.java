@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 
     public Elements title;
 
-    String currency[] = { "₴ UAH", "$ USD", "€ EUR", "¥ RUB" };
+    String currency[] = { "₴ UAH", "$ USD", "€ EUR", "\u20BD RUB" };
 
     Object current_currency = "₴";
     public void ValutUpdater(String curent_value){

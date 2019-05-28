@@ -69,9 +69,9 @@ public class Operation_page extends AppCompatActivity {
                             m.put(ATTRIBUTE_NAME_TYPE, c.getString(c.getColumnIndex(cn)+2));
                             if (c.getString(c.getColumnIndex(cn)+2).equals("From Cash")||
                                     c.getString(c.getColumnIndex(cn)+2).equals("From Card"))
-                                m.put(ATTRIBUTE_NAME_SUM, "- " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course) + valute);
+                                m.put(ATTRIBUTE_NAME_SUM, "- " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))/course) + valute);
                             else
-                                m.put(ATTRIBUTE_NAME_SUM, "+ " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))*course) + valute);
+                                m.put(ATTRIBUTE_NAME_SUM, "+ " + format.format(Double.parseDouble(c.getString(c.getColumnIndex(cn)+1))/course) + valute);
 
                             m.put(ATTRIBUTE_NAME_DATE, c.getString(c.getColumnIndex(cn)+3));
                             if (c.getString(c.getColumnIndex(cn)+4).equals(""))
@@ -172,7 +172,7 @@ public class Operation_page extends AppCompatActivity {
             String orderBy = "_id";
             c = db.query("mytable", colums, null, null, null, null, orderBy + " DESC");
             int[] indexs = new int[10000];
-            int i = 1;
+            int i = 0;
             if (c != null) {
                 if (c.moveToFirst()) {
                     do {
@@ -183,7 +183,7 @@ public class Operation_page extends AppCompatActivity {
                     } while (c.moveToNext());
                 }}
             String id = "_id";
-            db.delete("mytable", id + " = " + indexs[item.getItemId()], null);
+            db.delete("mytable", id + " = " + indexs[acmi.position], null);
             ListUpdate();
             return true;
         }
