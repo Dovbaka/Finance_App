@@ -30,7 +30,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -310,12 +309,6 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent_Chart, 1);
         } else if (id == R.id.nav_currency) {
             showDialog(0);
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -209,7 +209,7 @@ public class Add_page extends AppCompatActivity
 
         switch (v.getId()) {
             case R.id.btnAdd:
-                if ((!(TextUtils.isEmpty(numbers.getText().toString()))) && (!Sum.equals("0"))) {
+                if ((!(TextUtils.isEmpty(numbers.getText().toString()))) && (!Sum.equals("0"))&&!(numbers.getText().toString()).equals("0")) {
                     Log.d(LOG_TAG, "--- Insert in mytable: ---");
                     Sum = String.valueOf(Double.parseDouble(Sum) * course);
                     cv.put("category", Category);
@@ -221,11 +221,13 @@ public class Add_page extends AppCompatActivity
 
                     long rowID = db.insert("mytable", null, cv);
                     Log.d(LOG_TAG, "row inserted, ID = " + rowID);
+                    dbHelper.close();
                     finish();
                 }
                 break;
 
             case R.id.btnClose:
+                dbHelper.close();
                 finish();
                 break;
 
