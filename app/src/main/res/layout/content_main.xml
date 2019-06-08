@@ -56,6 +56,25 @@
             android:orientation="vertical">
 
 
+            <TextView
+                android:id="@+id/text_Plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/plan"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/text_Plan_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/no_money"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout

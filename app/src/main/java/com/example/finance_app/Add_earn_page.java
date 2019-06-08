@@ -209,7 +209,7 @@ public class Add_earn_page extends AppCompatActivity
         switch (v.getId()) {
             case R.id.btnAdd:
                 if ((!(TextUtils.isEmpty(numbers.getText().toString()))) && (!Sum.equals("0"))&&!(numbers.getText().toString()).equals("0")) {
-                    Log.d(LOG_TAG, "--- Insert in mytable: ---");
+                    Log.d(LOG_TAG, "--- Insert in table: ---");
                     Sum = String.valueOf(Double.parseDouble(Sum) * course);
                     // подготовим данные для вставки в виде пар: наименование столбца - значение
                     cv.put("category", Category);
@@ -219,7 +219,7 @@ public class Add_earn_page extends AppCompatActivity
                     cv.put("time", TimeNow);
                     cv.put("date", DateNow);
 
-                    long rowID = db.insert("mytable", null, cv);
+                    long rowID = db.insert("Finance_app_add_table", null, cv);
                     Log.d(LOG_TAG, "row inserted, ID = " + rowID);
                     dbHelper.close();
                     finish();

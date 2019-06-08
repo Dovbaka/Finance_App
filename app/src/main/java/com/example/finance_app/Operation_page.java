@@ -54,7 +54,7 @@ public class Operation_page extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String [] columns = new String[] { "category", "sum","type", "date","comment" };
         String orderBy = "_id";
-        c = db.query("mytable", columns, null, null, null, null, orderBy + " DESC");
+        c = db.query("Finance_app_add_table", columns, null, null, null, null, orderBy + " DESC");
         ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>(
                 c.getCount());
         Map<String, Object> m;
@@ -169,7 +169,7 @@ public class Operation_page extends AppCompatActivity {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             String[] colums = new String[]{"_id"};
             String orderBy = "_id";
-            c = db.query("mytable", colums, null, null, null, null, orderBy + " DESC");
+            c = db.query("Finance_app_add_table", colums, null, null, null, null, orderBy + " DESC");
             int[] indexs = new int[10000];
             int i = 0;
             if (c != null) {
@@ -182,7 +182,7 @@ public class Operation_page extends AppCompatActivity {
                     } while (c.moveToNext());
                 }}
             String id = "_id";
-            db.delete("mytable", id + " = " + indexs[acmi.position], null);
+            db.delete("Finance_app_add_table", id + " = " + indexs[acmi.position], null);
             ListUpdate();
             return true;
         }

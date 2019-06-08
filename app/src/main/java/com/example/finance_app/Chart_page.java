@@ -103,7 +103,7 @@ public class Chart_page extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = null;
         String[] columns = new String[] { "category", "sum(sum) as sum" };//new String[]{"SUM(income) AS " + sum,"income_category"};
-        c = db.query("mytable", columns, null, null, "category", null, null);
+        c = db.query("Finance_app_add_table", columns, null, null, "category", null, null);
         ArrayList<PieEntry> rv = new ArrayList<>();
         while(c.moveToNext()) {
             if(!c.getString(c.getColumnIndex("category")).equals("Salary"))

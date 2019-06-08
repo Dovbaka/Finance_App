@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -24,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,9 +37,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DataBase dbHelper;
-    TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card, Total,Cost;
+    TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card,Total,Cost,Plan;
+    SharedPreferences sPref;
+    double plan_sum = -1;
 
-    DecimalFormat format = new DecimalFormat("#.#");
+    DecimalFormat format = new DecimalFormat("#.##");
 
     double course[] = new double[10];
 
@@ -46,6 +50,50 @@ public class MainActivity extends AppCompatActivity
     String currency[] = { "₴ UAH", "$ USD", "€ EUR", "P RUB" };
 
     Object current_currency = "₴";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.drawer_main);
+
+        new NewThread().execute();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        Cafe = findViewById(R.id.textCafe);
+        Food = findViewById(R.id.textFood);
+        Home = findViewById(R.id.textHome);
+        Transport = findViewById(R.id.textTransport);
+        Shopping = findViewById(R.id.textShopping);
+        Gift = findViewById(R.id.textGift);
+        Health = findViewById(R.id.textHealth);
+        Leisure = findViewById(R.id.textLeisure);
+        Family = findViewById(R.id.textFamily);
+        Card = findViewById(R.id.textCard);
+        Cash = findViewById(R.id.textCash);
+        Total = findViewById(R.id.text_Balance_num);
+        Cost = findViewById(R.id.text_Cost_num);
+        Plan = findViewById(R.id.text_Plan_num);
+
+
+        DataBaseTakeInformation();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        if(!dbHelper.checkForTables("Finance_app_add_table")) showDialog(0);
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        loadPlan();
+
+    }
+
     public void ValutUpdater(String curent_value){
         DataBase dbHelper;
         ContentValues cv = new ContentValues();
@@ -138,15 +186,15 @@ public class MainActivity extends AppCompatActivity
         Cursor c = null;
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        double costCard=0;
-        double costCash=0;
-        double balanceCard=0;
-        double balanceCash=0;
-        double costs=0;
-        double course= ValutActivCourse();
+        double costCard = 0;
+        double costCash = 0;
+        double balanceCard = 0;
+        double balanceCash = 0;
+        double costs = 0;
+        double course = ValutActivCourse();
         String [] columns = new String[] { "type", "sum(sum) as sum" };
         String groupBy = "type";
-        c = db.query("mytable", columns, null, null, groupBy, null, null);
+        c = db.query("Finance_app_add_table", columns, null, null, groupBy, null, null);
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
@@ -170,7 +218,7 @@ public class MainActivity extends AppCompatActivity
 
         columns = new String[] { "category", "sum(sum) as sum" };
         groupBy = "category";
-        c = db.query("mytable", columns, null, null, groupBy, null, null);
+        c = db.query("Finance_app_add_table", columns, null, null, groupBy, null, null);
         String courents = ValutActivType();
         Cafe.setText("0" + courents);
         Food.setText("0" + courents);
@@ -225,9 +273,9 @@ public class MainActivity extends AppCompatActivity
                                 break;
                         }}}
                 while (c.moveToNext()) ;
-            c.close();
-        }
-        dbHelper.close();
+                c.close();
+            }
+            dbHelper.close();
             double resCard=balanceCard-costCard;
             double resCash=balanceCash-costCash;
             double resTotal=resCard+resCash;
@@ -236,45 +284,7 @@ public class MainActivity extends AppCompatActivity
             Card.setText(format.format(resCard)+ courents);
             Cash.setText(format.format(resCash)+ courents);
             Total.setText(format.format(resTotal)+ courents);
-    }}
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer_main);
-
-        new NewThread().execute();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        Cafe = findViewById(R.id.textCafe);
-        Food = findViewById(R.id.textFood);
-        Home = findViewById(R.id.textHome);
-        Transport = findViewById(R.id.textTransport);
-        Shopping = findViewById(R.id.textShopping);
-        Gift = findViewById(R.id.textGift);
-        Health = findViewById(R.id.textHealth);
-        Leisure = findViewById(R.id.textLeisure);
-        Family = findViewById(R.id.textFamily);
-        Card = findViewById(R.id.textCard);
-        Cash = findViewById(R.id.textCash);
-        Total = findViewById(R.id.text_Balance_num);
-        Cost = findViewById(R.id.text_Cost_num);
-
-
-        DataBaseTakeInformation();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-    }
+        }}
 
     @Override
     public void onResume() {
@@ -299,21 +309,50 @@ public class MainActivity extends AppCompatActivity
         double course=ValutActivCourse();
         String courents = ValutActivType();
 
-        if (id == R.id.nav_history) {
-            Intent intent_Operation = new Intent(this, Operation_page.class);
-            intent_Operation.putExtra("Course", course);
-            intent_Operation.putExtra("Course_type", courents);
-            startActivityForResult(intent_Operation, 1);
-        } else if (id == R.id.nav_statistic) {
-            Intent intent_Chart = new Intent(this, Chart_page.class);
-            startActivityForResult(intent_Chart, 1);
-        } else if (id == R.id.nav_currency) {
-            showDialog(0);
+        switch (id){
+            case R.id.nav_history:
+                Intent intent_Operation = new Intent(this, Operation_page.class);
+                intent_Operation.putExtra("Course", course);
+                intent_Operation.putExtra("Course_type", courents);
+                startActivityForResult(intent_Operation, 1);
+                break;
+
+            case R.id.nav_statistic:
+                Intent intent_Chart = new Intent(this, Chart_page.class);
+                startActivityForResult(intent_Chart, 1);
+                break;
+
+            case R.id.nav_currency:
+                showDialog(0);
+                break;
+
+            case R.id.nav_plan:
+                plan_sum = 1500 / course;
+                Plan.setText(format.format(plan_sum) + courents);
+                sPref = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor ed = sPref.edit();
+                ed.putString("Plan", String.valueOf(plan_sum));
+                ed.apply();
+                Toast.makeText(this, "Plan saved", Toast.LENGTH_SHORT).show();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void loadPlan() {
+        String courents = ValutActivType();
+        try{
+        sPref = getPreferences(MODE_PRIVATE);
+        plan_sum = Double.parseDouble(sPref.getString("Plan", ""));
+        Plan.setText(format.format(plan_sum) + courents);
+        Toast.makeText(this, "Plan loaded", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+
+        }
     }
 
     public void onClick(View v){
@@ -439,7 +478,7 @@ public class MainActivity extends AppCompatActivity
     protected Dialog onCreateDialog(int id) {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle("Select currency");
-        adb.setSingleChoiceItems(currency, -1, myClickListener);
+        adb.setSingleChoiceItems(currency, 0, myClickListener);
         adb.setPositiveButton("OK", myClickListener);
         return adb.create();
     }

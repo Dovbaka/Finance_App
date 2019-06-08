@@ -1,6 +1,7 @@
 package com.example.finance_app;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -10,14 +11,14 @@ public class DataBase extends SQLiteOpenHelper {
 
     public DataBase(Context context) {
         // конструктор суперкласса
-        super(context, "myDB", null, 1);
+        super(context, "Finance_App_DB", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("myLog", "--- onCreate database ---");
         // создаем таблицу с полями
-        db.execSQL("create table mytable ("
+        db.execSQL("create table Finance_app_add_table ("
                 + "_id integer primary key autoincrement,"
                 + "category text,"
                 + "type text,"
@@ -33,6 +34,27 @@ public class DataBase extends SQLiteOpenHelper {
                 + "course text,"
                 + "state text"
                 + ");");
+    }
+
+    public boolean checkForTables(String table_name){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + table_name, null);
+
+        if(cursor != null){
+
+            cursor.moveToFirst();
+
+            int count = cursor.getInt(0);
+
+            if(count > 0){
+                return true;
+            }
+
+            cursor.close();
+        }
+
+        return false;
     }
 
     @Override
