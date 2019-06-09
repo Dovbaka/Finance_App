@@ -39,11 +39,11 @@ public class MainActivity extends AppCompatActivity
     DataBase dbHelper;
     TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card,Total,Cost,Plan;
     SharedPreferences sPref;
-    double plan_sum = -1;
+    double plan_sum, resCost = 0;
 
     DecimalFormat format = new DecimalFormat("#.##");
 
-    double course[] = new double[10];
+    double course_masiv[] = new double[10];
 
     public Elements title;
 
@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         loadPlan();
+        CheckPlan();
 
     }
 
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         if (c.getCount() == 0) {
             for (int i = 0; i < 4; i++) {
                 cv.put("valut_type", valut_type[i]);
-                cv.put("course", course[i]);
+                cv.put("course", course_masiv[i]);
                 Log.d("myLog", "id = " + db.insert("valut", null, cv));
             }
         }
@@ -279,17 +280,20 @@ public class MainActivity extends AppCompatActivity
             double resCard=balanceCard-costCard;
             double resCash=balanceCash-costCash;
             double resTotal=resCard+resCash;
-            double resCost=costCard+costCash;
+            resCost=costCard+costCash;
             Cost.setText(format.format(resCost)+ courents);
             Card.setText(format.format(resCard)+ courents);
             Cash.setText(format.format(resCash)+ courents);
             Total.setText(format.format(resTotal)+ courents);
-        }}
+        }
+        CheckPlan();
+    }
 
     @Override
     public void onResume() {
         super.onResume();
         DataBaseTakeInformation();
+        loadPlan();
     }
 
     @Override
@@ -327,32 +331,16 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_plan:
-                plan_sum = 1500 / course;
-                Plan.setText(format.format(plan_sum) + courents);
-                sPref = getPreferences(MODE_PRIVATE);
-                SharedPreferences.Editor ed = sPref.edit();
-                ed.putString("Plan", String.valueOf(plan_sum));
-                ed.apply();
-                Toast.makeText(this, "Plan saved", Toast.LENGTH_SHORT).show();
+                Intent intent_Plan = new Intent(this, Plan_page.class);
+                intent_Plan.putExtra("Course", course);
+                intent_Plan.putExtra("Course_type", courents);
+                startActivityForResult(intent_Plan, 4);
                 break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void loadPlan() {
-        String courents = ValutActivType();
-        try{
-        sPref = getPreferences(MODE_PRIVATE);
-        plan_sum = Double.parseDouble(sPref.getString("Plan", ""));
-        Plan.setText(format.format(plan_sum) + courents);
-        Toast.makeText(this, "Plan loaded", Toast.LENGTH_SHORT).show();
-        }
-        catch (Exception e){
-
-        }
     }
 
     public void onClick(View v){
@@ -455,19 +443,22 @@ public class MainActivity extends AppCompatActivity
                 title = doc.select(".c3");
                 String[] masiv = new String[3];
                 int i = 0;
-                course[0]=1;
+                course_masiv[0]=1;
                 // и в цикле захватываем все данные какие есть на странице
                 for (Element titles : title) {
                     if (i < 3) {
                         masiv[i] = titles.text();
-                        course[i+1] = Double.parseDouble(masiv[i]);
+                        course_masiv[i+1] = Double.parseDouble(masiv[i]);
                         Log.d("myLog", masiv[i] + " next ");
                         i++;
                     }
 
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                course_masiv[0]=1;
+                course_masiv[1]=26;
+                course_masiv[2]=29;
+                course_masiv[3]=0.4;
             }
             // ничего не возвращаем потому что я так захотел)
             return null;
@@ -476,6 +467,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected Dialog onCreateDialog(int id) {
+        //TODO при перезаході вибрана валюта переключається на позицію 0
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle("Select currency");
         adb.setSingleChoiceItems(currency, 0, myClickListener);
@@ -509,4 +501,39 @@ public class MainActivity extends AppCompatActivity
             onResume();
         }
     };
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String courents = ValutActivType();
+        if (data == null) {return;}
+        switch(requestCode) {
+            case 4:
+                plan_sum = data.getDoubleExtra("hola", 0);
+                Plan.setText(format.format(plan_sum) + courents);
+                sPref = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor ed = sPref.edit();
+                ed.putString("Plan", String.valueOf(plan_sum));
+                ed.apply();
+                break;
+        }
+    }
+
+    public void CheckPlan() {
+        if(dbHelper.checkForTables("Finance_app_add_table")) {
+            if (plan_sum < resCost)
+                Toast.makeText(this, "You have exceeded the plan!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void loadPlan() {
+        double course = ValutActivCourse();
+        String courents = ValutActivType();
+        try{
+            sPref = getPreferences(MODE_PRIVATE);
+            plan_sum = Double.parseDouble(sPref.getString("Plan", ""));
+            Plan.setText(format.format(plan_sum / course) + courents);
+        }
+        catch (Exception e){
+            Plan.setText("0" + courents);
+        }
+    }
 }
