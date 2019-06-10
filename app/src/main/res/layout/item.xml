@@ -47,7 +47,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingLeft="10dp">
@@ -57,9 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Category"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:text="Category"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical"
             android:paddingEnd="7dp">
 
@@ -101,9 +101,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="0"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:text="0"
                     android:textColor="@color/mr_grey_text"
                     android:textSize="18sp"
                     android:textStyle="bold">

@@ -51,5 +51,7 @@
     <string name="cafe">Cafe</string>
     <string name="transport">Transport</string>
     <string name="Toast_div0">You can\'t divide by 0</string>
+    <string name="help">Help</string>
+    <string name="delete_all_operations">Delete all operations</string>
 
 </resources>

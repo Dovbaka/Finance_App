@@ -17,7 +17,6 @@ public class DataBase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("myLog", "--- onCreate database ---");
-        // создаем таблицу с полями
         db.execSQL("create table Finance_app_add_table ("
                 + "_id integer primary key autoincrement,"
                 + "category text,"

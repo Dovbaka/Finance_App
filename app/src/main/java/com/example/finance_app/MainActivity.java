@@ -308,7 +308,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         double course=ValutActivCourse();
         String courents = ValutActivType();
@@ -429,22 +428,16 @@ public class MainActivity extends AppCompatActivity
 
     public class NewThread extends AsyncTask<String, Void, String> {
 
-        // Метод выполняющий запрос в фоне, в версиях выше 4 андроида, запросы в главном потоке выполнять
-        // нельзя, поэтому все что вам нужно выполнять - выносите в отдельный тред
         @Override
         public String doInBackground(String... arg) {
 
-            // класс который захватывает страницу
             Document doc;
             try {
-                // определяем откуда будем воровать данные
                 doc = Jsoup.connect("https://finance.ua/ua/currency").get();
-                // задаем с какого места, я выбрал заголовке статей
                 title = doc.select(".c3");
                 String[] masiv = new String[3];
                 int i = 0;
                 course_masiv[0]=1;
-                // и в цикле захватываем все данные какие есть на странице
                 for (Element titles : title) {
                     if (i < 3) {
                         masiv[i] = titles.text();
@@ -460,9 +453,7 @@ public class MainActivity extends AppCompatActivity
                 course_masiv[2]=29;
                 course_masiv[3]=0.4;
             }
-            // ничего не возвращаем потому что я так захотел)
             return null;
-            //Нада якось повернути той масив або використати його але я хз(
         }
     }
 
@@ -519,8 +510,10 @@ public class MainActivity extends AppCompatActivity
 
     public void CheckPlan() {
         if(dbHelper.checkForTables("Finance_app_add_table")) {
-            if (plan_sum < resCost)
-                Toast.makeText(this, "You have exceeded the plan!", Toast.LENGTH_LONG).show();
+            double course = ValutActivCourse();
+            if (plan_sum / course < resCost)
+                Cost.setTextColor(getResources().getColor(R.color.pink_color));
+            else Cost.setTextColor(getResources().getColor(R.color.white));
         }
     }
 

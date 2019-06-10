@@ -65,7 +65,7 @@ public class Add_earn_page extends AppCompatActivity
 
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         spinner2.setAdapter(adapter2);
-        // выделяем элемент
+
         for (int i = 0; i < data.length; i++) {
             if(data[i].equals(cat_name)){ spinner.setSelection(i);break;}
             else {spinner.setSelection(0);}
@@ -190,11 +190,8 @@ public class Add_earn_page extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        //    Log.d(LOG_TAG,"Press button");
-        // создаем объект для данных
         ContentValues cv = new ContentValues();
-        // получаем данные из полей ввода
-        String Category = spinner2.getSelectedItem().toString();// зчитування з спінера
+        String Category = spinner2.getSelectedItem().toString();
         String destination = spinner.getSelectedItem().toString();
         String Comment = etComment.getText().toString();
         SimpleDateFormat TimeS = new SimpleDateFormat("HH:mm:ss");
