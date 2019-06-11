@@ -7,6 +7,10 @@ import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaActionSound;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -230,6 +234,8 @@ public class Operation_page extends AppCompatActivity {
         adb.setIcon(android.R.drawable.ic_delete);
         adb.setNegativeButton("Delete", myClickListener);
         adb.setPositiveButton("Back", myClickListener);
+        MediaPlayer doit = MediaPlayer.create(this, R.raw.sleep);
+        doit.start();
         return adb.create();
 
     }
