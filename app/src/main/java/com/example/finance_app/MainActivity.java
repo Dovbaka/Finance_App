@@ -285,6 +285,8 @@ public class MainActivity extends AppCompatActivity
             Card.setText(format.format(resCard)+ courents);
             Cash.setText(format.format(resCash)+ courents);
             Total.setText(format.format(resTotal)+ courents);
+            if (resTotal<0)Total.setTextColor(getResources().getColor(R.color.pink_color));
+            else Total.setTextColor(getResources().getColor(R.color.white));
         }
         CheckPlan();
     }
@@ -447,7 +449,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 course_masiv[0]=1;
                 course_masiv[1]=26;
                 course_masiv[2]=29;
@@ -509,7 +511,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void CheckPlan() {
-        if(dbHelper.checkForTables("Finance_app_add_table")) {
+        if(dbHelper.checkForTables("Finance_app_add_table") || plan_sum!=0) {
             double course = ValutActivCourse();
             if (plan_sum / course < resCost)
                 Cost.setTextColor(getResources().getColor(R.color.pink_color));
