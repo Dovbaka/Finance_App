@@ -3,13 +3,13 @@ package com.example.finance_app;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 
 import android.os.AsyncTask;
@@ -23,9 +23,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -37,9 +39,15 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DataBase dbHelper;
-    TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,Cash,Card,Total,Cost,Plan;
+    TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,
+             Cash,Card,Total,Cost,Plan,User_label,User2_label,User3_label,User,User2,User3;
+    ImageButton User_btn,User2_btn,User3_btn;
     SharedPreferences sPref;
     double plan_sum, resCost = 0;
+    boolean user_cat_exists = false, user2_cat_exists = false, user3_cat_exists = false;
+    LinearLayout parentView;
+
+    Context context;
 
     DecimalFormat format = new DecimalFormat("#.##");
 
@@ -75,6 +83,15 @@ public class MainActivity extends AppCompatActivity
         Cost = findViewById(R.id.text_Cost_num);
         Plan = findViewById(R.id.text_Plan_num);
 
+        User = findViewById(R.id.textUser);
+        User2 = findViewById(R.id.textUser2);
+        User3 = findViewById(R.id.textUser3);
+        User_label = findViewById(R.id.text_name_User);
+        User2_label = findViewById(R.id.text_name_User2);
+        User3_label = findViewById(R.id.text_name_User3);
+        User_btn = findViewById(R.id.btnUser);
+        User2_btn = findViewById(R.id.btnUser2);
+        User3_btn = findViewById(R.id.btnUser3);
 
         DataBaseTakeInformation();
 
@@ -425,6 +442,59 @@ public class MainActivity extends AppCompatActivity
                 intent_Add_earn.putExtra("Course", course);
                 startActivityForResult(intent_Add_earn, 1);
                 break;
+
+            case R.id.btnUser:
+                if(!user_cat_exists){
+                    User.setVisibility(View.VISIBLE);
+                    User_label.setVisibility(View.VISIBLE);
+                    User2_btn.setVisibility(View.VISIBLE);
+                    User_btn.setImageResource(android.R.drawable.ic_menu_edit);
+                    User_label.setText("My cat");
+                    user_cat_exists = true;
+                    break;
+                }
+                else {
+                    category_name = "User";
+                    intent_Add.putExtra("Category", category_name);
+                    intent_Add.putExtra("Course", course);
+                    startActivityForResult(intent_Add, 1);
+                    break;
+                }
+
+            case R.id.btnUser2:
+                if(!user2_cat_exists){
+                    User2.setVisibility(View.VISIBLE);
+                    User2_label.setVisibility(View.VISIBLE);
+                    User3_btn.setVisibility(View.VISIBLE);
+                    User2_btn.setImageResource(android.R.drawable.ic_menu_edit);
+                    User2_label.setText("My cat");
+                    user2_cat_exists = true;
+                    break;
+                }
+                else {
+                    category_name = "User";
+                    intent_Add.putExtra("Category", category_name);
+                    intent_Add.putExtra("Course", course);
+                    startActivityForResult(intent_Add, 1);
+                    break;
+                }
+
+            case R.id.btnUser3:
+                if(!user3_cat_exists){
+                    User3.setVisibility(View.VISIBLE);
+                    User3_label.setVisibility(View.VISIBLE);
+                    User3_btn.setImageResource(android.R.drawable.ic_menu_edit);
+                    User3_label.setText("My cat");
+                    user3_cat_exists = true;
+                    break;
+                }
+                else {
+                    category_name = "User";
+                    intent_Add.putExtra("Category", category_name);
+                    intent_Add.putExtra("Course", course);
+                    startActivityForResult(intent_Add, 1);
+                    break;
+                }
         }
     }
 
