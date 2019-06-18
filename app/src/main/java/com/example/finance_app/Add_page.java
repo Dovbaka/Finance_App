@@ -36,7 +36,7 @@ public class Add_page extends AppCompatActivity
     boolean operator_pressed = false;
 
     String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift",
-            "Health", "Leisure", "Family",};
+            "Health", "Leisure", "Family", "Custom category", "Custom category 2", "Custom category 3"};
     String[] data2 = {"Cash", "Card"};
 
     public boolean isInt(double a){

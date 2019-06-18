@@ -617,7 +617,7 @@
                 android:layout_height="55dp"
                 android:layout_weight="0"
                 android:onClick="onClick"
-                android:src="@android:drawable/ic_input_add"
+                android:src="@drawable/ic_iconfinder_circle_add"
                 android:visibility="visible" />
 
             <TextView
@@ -665,7 +665,7 @@
                 android:layout_height="55dp"
                 android:layout_weight="0"
                 android:onClick="onClick"
-                android:src="@android:drawable/ic_input_add"
+                android:src="@drawable/ic_iconfinder_circle_add"
                 android:visibility="invisible" />
 
             <TextView
@@ -712,7 +712,7 @@
                 android:layout_height="55dp"
                 android:layout_weight="0"
                 android:onClick="onClick"
-                android:src="@android:drawable/ic_input_add"
+                android:src="@drawable/ic_iconfinder_circle_add"
                 android:visibility="invisible" />
 
             <TextView

@@ -28,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity
     TextView Cafe,Food,Home,Transport,Shopping,Gift,Health,Leisure,Family,
              Cash,Card,Total,Cost,Plan,User_label,User2_label,User3_label,User,User2,User3;
     ImageButton User_btn,User2_btn,User3_btn;
-    SharedPreferences sPref;
+    SharedPreferences sPref, user_cat_pref;
     double plan_sum, resCost = 0;
     boolean user_cat_exists = false, user2_cat_exists = false, user3_cat_exists = false;
     LinearLayout parentView;
@@ -106,6 +107,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        loadUserCat();
 
         loadPlan();
         CheckPlan();
@@ -289,6 +292,18 @@ public class MainActivity extends AppCompatActivity
                                 Family.setText(format.format(Double.parseDouble
                                         (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
+                            case "Custom category":
+                                User.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
+                                break;
+                            case "Custom category 2":
+                                User2.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
+                                break;
+                            case "Custom category 3":
+                                User3.setText(format.format(Double.parseDouble
+                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
+                                break;
                         }}}
                 while (c.moveToNext()) ;
                 c.close();
@@ -448,13 +463,17 @@ public class MainActivity extends AppCompatActivity
                     User.setVisibility(View.VISIBLE);
                     User_label.setVisibility(View.VISIBLE);
                     User2_btn.setVisibility(View.VISIBLE);
-                    User_btn.setImageResource(android.R.drawable.ic_menu_edit);
-                    User_label.setText("My cat");
+                    User_btn.setImageResource(R.drawable.ic_iconfinder_user);
+                    User_label.setText("Custom #1");
                     user_cat_exists = true;
+                    SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor =      preferences.edit();
+                    editor.putBoolean("User1", user_cat_exists);
+                    editor.commit();
                     break;
                 }
                 else {
-                    category_name = "User";
+                    category_name = "Custom category";
                     intent_Add.putExtra("Category", category_name);
                     intent_Add.putExtra("Course", course);
                     startActivityForResult(intent_Add, 1);
@@ -466,13 +485,17 @@ public class MainActivity extends AppCompatActivity
                     User2.setVisibility(View.VISIBLE);
                     User2_label.setVisibility(View.VISIBLE);
                     User3_btn.setVisibility(View.VISIBLE);
-                    User2_btn.setImageResource(android.R.drawable.ic_menu_edit);
-                    User2_label.setText("My cat");
+                    User2_btn.setImageResource(R.drawable.ic_iconfinder_user);
+                    User2_label.setText("Custom #2");
                     user2_cat_exists = true;
+                    SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor =      preferences.edit();
+                    editor.putBoolean("User2", user2_cat_exists);
+                    editor.commit();
                     break;
                 }
                 else {
-                    category_name = "User";
+                    category_name = "Custom category 2";
                     intent_Add.putExtra("Category", category_name);
                     intent_Add.putExtra("Course", course);
                     startActivityForResult(intent_Add, 1);
@@ -483,13 +506,17 @@ public class MainActivity extends AppCompatActivity
                 if(!user3_cat_exists){
                     User3.setVisibility(View.VISIBLE);
                     User3_label.setVisibility(View.VISIBLE);
-                    User3_btn.setImageResource(android.R.drawable.ic_menu_edit);
-                    User3_label.setText("My cat");
+                    User3_btn.setImageResource(R.drawable.ic_iconfinder_user);
+                    User3_label.setText("Custom #3");
                     user3_cat_exists = true;
+                    SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor =      preferences.edit();
+                    editor.putBoolean("User3", user3_cat_exists);
+                    editor.commit();
                     break;
                 }
                 else {
-                    category_name = "User";
+                    category_name = "Custom category 3";
                     intent_Add.putExtra("Category", category_name);
                     intent_Add.putExtra("Course", course);
                     startActivityForResult(intent_Add, 1);
@@ -601,4 +628,38 @@ public class MainActivity extends AppCompatActivity
             Plan.setText("0" + courents);
         }
     }
+
+    public void loadUserCat() {
+        try{
+            user_cat_pref = getPreferences(MODE_PRIVATE);
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
+            user_cat_exists = preferences.getBoolean("User1", false);
+            if(user_cat_exists){
+                User.setVisibility(View.VISIBLE);
+                User_label.setVisibility(View.VISIBLE);
+                User2_btn.setVisibility(View.VISIBLE);
+                User_btn.setImageResource(R.drawable.ic_iconfinder_user);
+                User_label.setText("Custom #1");
+            }
+            user2_cat_exists = preferences.getBoolean("User2", false);
+            if(user_cat_exists){
+                User2.setVisibility(View.VISIBLE);
+                User2_label.setVisibility(View.VISIBLE);
+                User3_btn.setVisibility(View.VISIBLE);
+                User2_btn.setImageResource(R.drawable.ic_iconfinder_user);
+                User2_label.setText("Custom #2");
+            }
+            user3_cat_exists = preferences.getBoolean("User3", false);
+            if(user_cat_exists){
+                User3.setVisibility(View.VISIBLE);
+                User3_label.setVisibility(View.VISIBLE);
+                User3_btn.setImageResource(R.drawable.ic_iconfinder_user);
+                User3_label.setText("Custom #3");
+            }
+        }
+        catch (Exception e){
+
+        }
+    }
+
 }

@@ -133,6 +133,18 @@ public class Operation_page extends AppCompatActivity {
                                 case "Family":
                                     m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.family);
                                     break;
+
+                                case "Custom category":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.user);
+                                    break;
+
+                                case "Custom category 2":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.user);
+                                    break;
+
+                                case "Custom category 3":
+                                    m.put(ATTRIBUTE_NAME_IMAGE,img = R.drawable.user);
+                                    break;
                             }
                             data.add(m);
                         }
