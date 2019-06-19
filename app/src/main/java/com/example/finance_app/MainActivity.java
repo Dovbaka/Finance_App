@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -46,9 +48,9 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sPref, user_cat_pref;
     double plan_sum, resCost = 0;
     boolean user_cat_exists = false, user2_cat_exists = false, user3_cat_exists = false;
-    LinearLayout parentView;
+    String lable, lable2, lable3;
 
-    Context context;
+    final Context context = this;
 
     DecimalFormat format = new DecimalFormat("#.##");
 
@@ -460,15 +462,17 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btnUser:
                 if(!user_cat_exists){
+                    while (User_label.getText().toString().equals(""))
+                    getCatName(User_label);
                     User.setVisibility(View.VISIBLE);
                     User_label.setVisibility(View.VISIBLE);
                     User2_btn.setVisibility(View.VISIBLE);
                     User_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                    User_label.setText("Custom #1");
                     user_cat_exists = true;
                     SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor =      preferences.edit();
+                    SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("User1", user_cat_exists);
+                    editor.putString("User1_name", (User_label.getText().toString()));
                     editor.commit();
                     break;
                 }
@@ -482,15 +486,16 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btnUser2:
                 if(!user2_cat_exists){
+                    getCatName(User2_label);
                     User2.setVisibility(View.VISIBLE);
                     User2_label.setVisibility(View.VISIBLE);
                     User3_btn.setVisibility(View.VISIBLE);
                     User2_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                    User2_label.setText("Custom #2");
                     user2_cat_exists = true;
                     SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor =      preferences.edit();
                     editor.putBoolean("User2", user2_cat_exists);
+                    editor.putString("User2_name", User2_label.getText().toString());
                     editor.commit();
                     break;
                 }
@@ -504,14 +509,15 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btnUser3:
                 if(!user3_cat_exists){
+                    getCatName(User3_label);
                     User3.setVisibility(View.VISIBLE);
                     User3_label.setVisibility(View.VISIBLE);
                     User3_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                    User3_label.setText("Custom #3");
                     user3_cat_exists = true;
                     SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor =      preferences.edit();
                     editor.putBoolean("User3", user3_cat_exists);
+                    editor.putString("User3_name", User3_label.getText().toString());
                     editor.commit();
                     break;
                 }
@@ -634,32 +640,72 @@ public class MainActivity extends AppCompatActivity
             user_cat_pref = getPreferences(MODE_PRIVATE);
             SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
             user_cat_exists = preferences.getBoolean("User1", false);
+            lable = preferences.getString("User1_name", "None");
             if(user_cat_exists){
                 User.setVisibility(View.VISIBLE);
                 User_label.setVisibility(View.VISIBLE);
                 User2_btn.setVisibility(View.VISIBLE);
                 User_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                User_label.setText("Custom #1");
+                User_label.setText(lable);
             }
             user2_cat_exists = preferences.getBoolean("User2", false);
-            if(user_cat_exists){
+            lable2 = preferences.getString("User2_name", "None");
+            if(user2_cat_exists){
                 User2.setVisibility(View.VISIBLE);
                 User2_label.setVisibility(View.VISIBLE);
                 User3_btn.setVisibility(View.VISIBLE);
                 User2_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                User2_label.setText("Custom #2");
+                User2_label.setText(lable2);
             }
             user3_cat_exists = preferences.getBoolean("User3", false);
-            if(user_cat_exists){
+            lable3 = preferences.getString("User3_name", "None");
+            if(user3_cat_exists){
                 User3.setVisibility(View.VISIBLE);
                 User3_label.setVisibility(View.VISIBLE);
                 User3_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                User3_label.setText("Custom #3");
+                User3_label.setText(lable3);
             }
         }
         catch (Exception e){
-
         }
+    }
+
+    public void getCatName (final TextView txt){
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.prompt, null);
+
+        //Создаем AlertDialog
+        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
+
+        //Настраиваем prompt.xml для нашего AlertDialog:
+        mDialogBuilder.setView(promptsView);
+
+        //Настраиваем отображение поля для ввода текста в открытом диалоге:
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.input_text);
+
+        //Настраиваем сообщение в диалоговом окне:
+        mDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                //Вводим текст и отображаем в строке ввода на основном экране:
+                                txt.setText(userInput.getText().toString());
+                            }
+                        })
+                .setNegativeButton("Back",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        //Создаем AlertDialog:
+        AlertDialog alertDialog = mDialogBuilder.create();
+
+        //и отображаем его:
+        alertDialog.show();
+
     }
 
 }
