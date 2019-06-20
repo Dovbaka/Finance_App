@@ -27,7 +27,10 @@ public class Chart_page extends AppCompatActivity {
             Color.rgb(192, 0, 0)/*Red*/,
             Color.rgb(44, 215, 192)/*Blue*/,
             Color.rgb(255, 0, 148)/*Pink*/ ,
-            Color.rgb(135, 135, 135)/*Grey*/
+            Color.rgb(135, 135, 135)/*Grey*/,
+            Color.rgb(149, 0, 202)/*Purple*/ ,
+            Color.rgb(238, 182, 202)/*Really pink*/ ,
+            Color.rgb(71, 126, 0)/*Dark green*/ ,
     };
 
     DataBase dbHelper;

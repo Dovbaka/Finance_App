@@ -208,6 +208,10 @@ public class MainActivity extends AppCompatActivity
         dbHelper = new DataBase(this);
         Cursor c = null;
 
+        String user1 = User_label.getText().toString(),
+               user2 = User2_label.getText().toString(),
+               user3 = User2_label.getText().toString();
+
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         double costCard = 0;
         double costCash = 0;
@@ -294,19 +298,25 @@ public class MainActivity extends AppCompatActivity
                                 Family.setText(format.format(Double.parseDouble
                                         (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
                                 break;
-                            case "Custom category":
-                                User.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
-                                break;
-                            case "Custom category 2":
-                                User2.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
-                                break;
-                            case "Custom category 3":
-                                User3.setText(format.format(Double.parseDouble
-                                        (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
-                                break;
-                        }}}
+                        }
+                        if (c.getString(c.getColumnIndex(cn)).equals(User_label.getText().toString())){
+                            User.setText(format.format(Double.parseDouble
+                                    (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
+                            break;
+                        }
+                        if (c.getString(c.getColumnIndex(cn)).equals(User2_label.getText().toString())){
+                            User2.setText(format.format(Double.parseDouble
+                                    (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
+                            break;
+                        }
+                        if (c.getString(c.getColumnIndex(cn)).equals(User3_label.getText().toString())){
+                            User3.setText(format.format(Double.parseDouble
+                                    (c.getString(c.getColumnIndex(cn)+1)) / course) + courents);
+                            break;
+                        }
+
+                    }
+                }
                 while (c.moveToNext()) ;
                 c.close();
             }
@@ -462,22 +472,16 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btnUser:
                 if(!user_cat_exists){
-                    while (User_label.getText().toString().equals(""))
-                    getCatName(User_label);
+                    user_cat_exists = true;
+                    getCatName(User_label,"User1","User1_name", user_cat_exists);
                     User.setVisibility(View.VISIBLE);
                     User_label.setVisibility(View.VISIBLE);
                     User2_btn.setVisibility(View.VISIBLE);
                     User_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                    user_cat_exists = true;
-                    SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putBoolean("User1", user_cat_exists);
-                    editor.putString("User1_name", (User_label.getText().toString()));
-                    editor.commit();
                     break;
                 }
                 else {
-                    category_name = "Custom category";
+                    category_name = User_label.getText().toString();
                     intent_Add.putExtra("Category", category_name);
                     intent_Add.putExtra("Course", course);
                     startActivityForResult(intent_Add, 1);
@@ -486,21 +490,16 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btnUser2:
                 if(!user2_cat_exists){
-                    getCatName(User2_label);
+                    user2_cat_exists = true;
+                    getCatName(User2_label,"User2","User2_name", user2_cat_exists);
                     User2.setVisibility(View.VISIBLE);
                     User2_label.setVisibility(View.VISIBLE);
                     User3_btn.setVisibility(View.VISIBLE);
                     User2_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                    user2_cat_exists = true;
-                    SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor =      preferences.edit();
-                    editor.putBoolean("User2", user2_cat_exists);
-                    editor.putString("User2_name", User2_label.getText().toString());
-                    editor.commit();
                     break;
                 }
                 else {
-                    category_name = "Custom category 2";
+                    category_name = User2_label.getText().toString();
                     intent_Add.putExtra("Category", category_name);
                     intent_Add.putExtra("Course", course);
                     startActivityForResult(intent_Add, 1);
@@ -509,20 +508,15 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btnUser3:
                 if(!user3_cat_exists){
-                    getCatName(User3_label);
+                    user3_cat_exists = true;
+                    getCatName(User3_label,"User3","User3_name", user3_cat_exists);
                     User3.setVisibility(View.VISIBLE);
                     User3_label.setVisibility(View.VISIBLE);
                     User3_btn.setImageResource(R.drawable.ic_iconfinder_user);
-                    user3_cat_exists = true;
-                    SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor =      preferences.edit();
-                    editor.putBoolean("User3", user3_cat_exists);
-                    editor.putString("User3_name", User3_label.getText().toString());
-                    editor.commit();
                     break;
                 }
                 else {
-                    category_name = "Custom category 3";
+                    category_name = User3_label.getText().toString();
                     intent_Add.putExtra("Category", category_name);
                     intent_Add.putExtra("Course", course);
                     startActivityForResult(intent_Add, 1);
@@ -563,7 +557,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected Dialog onCreateDialog(int id) {
-        //TODO при перезаході вибрана валюта переключається на позицію 0
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle("Select currency");
         adb.setSingleChoiceItems(currency, 0, myClickListener);
@@ -616,7 +609,7 @@ public class MainActivity extends AppCompatActivity
     public void CheckPlan() {
         if(dbHelper.checkForTables("Finance_app_add_table") || plan_sum!=0) {
             double course = ValutActivCourse();
-            if (plan_sum / course < resCost)
+            if (plan_sum / course < resCost && plan_sum != 0)
                 Cost.setTextColor(getResources().getColor(R.color.pink_color));
             else Cost.setTextColor(getResources().getColor(R.color.white));
         }
@@ -670,27 +663,28 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void getCatName (final TextView txt){
+    public void getCatName (final TextView txt, final String user_cat, final String name,
+                            final boolean cat_exist){
         LayoutInflater li = LayoutInflater.from(context);
         View promptsView = li.inflate(R.layout.prompt, null);
 
-        //Создаем AlertDialog
         AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
 
-        //Настраиваем prompt.xml для нашего AlertDialog:
         mDialogBuilder.setView(promptsView);
 
-        //Настраиваем отображение поля для ввода текста в открытом диалоге:
         final EditText userInput = (EditText) promptsView.findViewById(R.id.input_text);
 
-        //Настраиваем сообщение в диалоговом окне:
         mDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("Ok",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                //Вводим текст и отображаем в строке ввода на основном экране:
                                 txt.setText(userInput.getText().toString());
+                                SharedPreferences preferences = getApplicationContext().getSharedPreferences(" SHARED_PREFERENCES_NAME ", android.content.Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putBoolean(user_cat, cat_exist);
+                                editor.putString(name, (txt.getText().toString()));
+                                editor.commit();
                             }
                         })
                 .setNegativeButton("Back",
@@ -700,10 +694,8 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
 
-        //Создаем AlertDialog:
         AlertDialog alertDialog = mDialogBuilder.create();
 
-        //и отображаем его:
         alertDialog.show();
 
     }

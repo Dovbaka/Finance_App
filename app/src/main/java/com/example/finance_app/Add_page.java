@@ -36,7 +36,7 @@ public class Add_page extends AppCompatActivity
     boolean operator_pressed = false;
 
     String[] data = {"Cafes & restaurants", "Food", "Home", "Transport", "Shopping", "Gift",
-            "Health", "Leisure", "Family", "Custom category", "Custom category 2", "Custom category 3"};
+            "Health", "Leisure", "Family", "Custom category"};
     String[] data2 = {"Cash", "Card"};
 
     public boolean isInt(double a){
@@ -66,10 +66,15 @@ public class Add_page extends AppCompatActivity
 
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         spinner2.setAdapter(adapter2);
-        // выделяем элемент
+
         for (int i = 0; i < data.length; i++) {
-            if(data[i].equals(cat_name)){ spinner.setSelection(i);break;}
+            if(data[i].equals(cat_name)){ spinner.setSelection(i); break;}
             else {spinner.setSelection(0);}
+        }
+        if(!cat_name.equals("Cafes & restaurants") &&
+            spinner.getSelectedItem().toString().equals("Cafes & restaurants")){
+            data[9] = cat_name;
+            spinner.setSelection(9);
         }
         spinner2.setSelection(0);
 
@@ -84,7 +89,6 @@ public class Add_page extends AppCompatActivity
         numbers = findViewById(R.id.number_text);
         etComment = (EditText) findViewById(R.id.comment);
 
-        // создаем объект для создания и управления версиями БД
         dbHelper = new DataBase(this);
 
         String TimeNow = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
