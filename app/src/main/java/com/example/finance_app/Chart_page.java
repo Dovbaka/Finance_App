@@ -25,18 +25,15 @@ public class Chart_page extends AppCompatActivity {
             Color.rgb(255, 168, 0)/*Orange*/,
             Color.rgb(0, 129, 223)/*Azure*/,
             Color.rgb(192, 0, 0)/*Red*/,
-            Color.rgb(44, 215, 192)/*Blue*/,
-            Color.rgb(255, 0, 148)/*Pink*/ ,
             Color.rgb(135, 135, 135)/*Grey*/,
             Color.rgb(149, 0, 202)/*Purple*/ ,
+            Color.rgb(44, 215, 192)/*Blue*/,
+            Color.rgb(255, 0, 148)/*Pink*/ ,
             Color.rgb(238, 182, 202)/*Really pink*/ ,
-            Color.rgb(71, 126, 0)/*Dark green*/ ,
+            Color.rgb(71, 126, 0)/*Dark green*/
     };
 
     DataBase dbHelper;
-
-    String[] category = { "Cafe", "Food", "Home", "Transport", "Shopping", "gift",
-            "Health", "Leisure", "Family" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +62,6 @@ public class Chart_page extends AppCompatActivity {
         dataSet.setValueLinePart1Length(0.4f);
         dataSet.setValueLinePart2Length(0.1f);
         dataSet.setSliceSpace(3);
-        //dataSet.setValueLineColor(Color.WHITE);
         dataSet.setUsingSliceColorAsValueLineColor(true);
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
@@ -95,7 +91,6 @@ public class Chart_page extends AppCompatActivity {
         legend.setYOffset(20f);
         legend.setXOffset(20f);
         legend.setTextColor(Color.WHITE);
-        //chart.getLegend().setEnabled(false);
 
         chart.setData(data);
     }

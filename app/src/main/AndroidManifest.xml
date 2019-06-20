@@ -12,10 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Plan_page"></activity>
-        <activity android:name=".Chart_page" />
+        <activity android:name=".Plan_page"
+            android:label="Plan"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".Chart_page"
+            android:label="Chart"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Operation_page"
+            android:parentActivityName=".MainActivity"
             android:label="History"
             android:screenOrientation="portrait" />
         <activity
